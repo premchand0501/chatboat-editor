@@ -1,0 +1,59 @@
+[
+  {
+    "chat_id": 7,
+    "chat_label": "World 10k Elite",
+    "chat_desc": "",
+    "chat_options": [
+      {
+        "chat_id": 710,
+        "chat_label": "Where can I see the results?",
+        "chat_desc": "",
+        "chat_options": [],
+        "type": "a",
+        "reply_id": 7101
+      },
+      {
+        "chat_id": 711,
+        "chat_label": "Where can I get the photos?",
+        "chat_desc": "",
+        "chat_options": [],
+        "type": "a",
+        "reply_id": 7111
+      },
+      {
+        "chat_id": 712,
+        "chat_label": "Where can I find provisional race results?",
+        "chat_desc": "",
+        "chat_options": [],
+        "type": "a",
+        "reply_id": 7121
+      }
+    ],
+    "type": "ol",
+    "reply_id": null
+  },
+  {
+    "chat_id": 7101,
+    "chat_label": "World 10k Elite - Where can I see the results?",
+    "chat_desc": "We are about to release the results. For more details you can keep visiting [here, https://tcsworld10k.procam.in/race-results/2019, _blank]",
+    "chat_options": [],
+    "type": "c",
+    "reply_id": null
+  },
+  {
+    "chat_id": 7111,
+    "chat_label": "World 10k Elite - Where can I get the photos?",
+    "chat_desc": "[Here, https://third-party-link.com, _blank] you can download the photos.",
+    "chat_options": [],
+    "type": "c",
+    "reply_id": null
+  },
+  {
+    "chat_id": 7121,
+    "chat_label": "World 10k Elite - Where can I find provisional race results?",
+    "chat_desc": "Click [here, https://third-party-link.com, _blank] to find the results.",
+    "chat_options": [],
+    "type": "c",
+    "reply_id": null
+  }
+]
