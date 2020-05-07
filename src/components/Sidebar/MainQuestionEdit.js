@@ -1,0 +1,126 @@
+import React from 'react';
+
+export const MainQuestionEdit = ({
+  questions,
+  currentQuestion,
+  handleSubmit,
+  handleOnChange,
+  handleAddEditChatOption,
+  clearForm,
+}) => {
+  return (
+    <form onSubmit={(event) => handleSubmit(event, false)}>
+      <h3>Enter your chat details</h3>
+      <div className="input-group">
+        <div className="input-group-prepend">
+          <label className="input-group-text">Chat ID#</label>
+        </div>
+        <input
+          type="text"
+          className="form-control"
+          value={currentQuestion.chat_id}
+          onChange={(event) => handleOnChange(event, false)}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="chatLabel">Chat Label</label>
+        <textarea
+          type="text"
+          className="form-control"
+          id="chatLabel"
+          name="chat_label"
+          value={currentQuestion.chat_label}
+          rows="3"
+          onChange={(event) => handleOnChange(event, false)}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="chatDesc">Chat Description</label>
+        <textarea
+          type="text"
+          className="form-control"
+          id="chatDesc"
+          name="chat_desc"
+          rows="4"
+          value={currentQuestion.chat_desc}
+          onChange={(event) => handleOnChange(event, false)}
+        />
+      </div>
+      <div className="form-group">
+        <label htmlFor="chatType">Chat Type</label>
+        <select
+          className="form-control"
+          id="chatType"
+          name="type"
+          value={currentQuestion.type}
+          onChange={(event) => handleOnChange(event, false)}
+        >
+          <option value="">Select Type</option>
+          <option value="q">Question</option>
+          <option value="ol">Options List</option>
+          <option value="a">Answer</option>
+          <option value="c">Contact us</option>
+          <option value="i">Info Message</option>
+        </select>
+      </div>
+      <div className="form-group mb3">
+        <label htmlFor="replayId">Chat Options</label>
+        <button
+          type="button"
+          className="btn btn-outline-info mb-1 w-100"
+          onClick={() => handleAddEditChatOption(currentQuestion)}
+        >
+          + Add Chat Options
+        </button>
+        {currentQuestion.chat_options.map((q, ind) => (
+          <button
+            type="button"
+            className="btn btn-outline-dark mb-1 w-100"
+            key={'ol_ques_' + ind}
+            onClick={() => handleAddEditChatOption(q)}
+          >
+            {q.chat_label && <p className="m-0">{q.chat_label}</p>}
+            {q.chat_desc && (
+              <p className="m-0">
+                <small>{q.chat_desc}</small>
+              </p>
+            )}
+          </button>
+        ))}
+      </div>
+      {currentQuestion.type !== 'ol' ? (
+        <div className="form-group">
+          <label htmlFor="replayId">Chat Replay</label>
+          <select
+            className="form-control"
+            id="replayId"
+            name="reply_id"
+            onChange={(event) => handleOnChange(event, false)}
+            value={currentQuestion.reply_id}
+          >
+            <option value="">Select Chat Replay</option>
+            {questions.map((q, i) => (
+              <option
+                key={'opt_' + i}
+                value={q.chat_id}
+                disabled={q.reply_id === currentQuestion.chat_id}
+              >
+                {q.chat_label}
+              </option>
+            ))}
+          </select>
+        </div>
+      ) : null}
+      <button type="submit" className="btn btn-primary">
+        Submit
+      </button>
+      <button
+        type="button"
+        className="ml-3 btn btn-outline-primary"
+        onClick={clearForm}
+      >
+        Clear Form
+      </button>
+    </form>
+  );
+};

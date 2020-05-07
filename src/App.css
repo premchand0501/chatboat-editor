@@ -1,38 +1,53 @@
-.App {
-  text-align: center;
-}
+@import './assets/bootstrap.css';
 
-.App-logo {
-  height: 40vmin;
-  pointer-events: none;
+html {
+  font-size: 12px;
 }
-
-@media (prefers-reduced-motion: no-preference) {
-  .App-logo {
-    animation: App-logo-spin infinite 20s linear;
+.sidebar {
+  max-height: 100vh;
+  padding: 1rem;
+  overflow-y: auto;
+}
+.questions {
+  max-height: 100vh;
+  overflow-y: auto;
+  height: 100vh;
+  background-color: #f6f6f6;
+  padding: 1rem;
+}
+.questions .card {
+  cursor: pointer;
+}
+.fade-scale-up {
+  animation: fade-scale-up 1s ease forwards 1;
+}
+@keyframes fade-scale-up {
+  0% {
+    opacity: 0;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  75% {
+    transform: scale(1.05);
+  }
+  100% {
+    transform: scale(1);
   }
 }
-
-.App-header {
-  background-color: #282c34;
-  min-height: 100vh;
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-  justify-content: center;
-  font-size: calc(10px + 2vmin);
-  color: white;
+.questions .action-bar {
+  position: sticky;
+  z-index: 10;
+  top: -1rem;
+  right: 0;
+  width: 100%;
+  padding: 1rem;
+  background-color: #eee;
 }
-
-.App-link {
-  color: #61dafb;
-}
-
-@keyframes App-logo-spin {
-  from {
-    transform: rotate(0deg);
-  }
-  to {
-    transform: rotate(360deg);
+@media (max-width: 768) {
+  .questions .action-bar {
+    width: 50%;
   }
 }
