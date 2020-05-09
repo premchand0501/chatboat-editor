@@ -14,7 +14,7 @@
 importScripts("https://storage.googleapis.com/workbox-cdn/releases/4.3.1/workbox-sw.js");
 
 importScripts(
-  "/chatboat-editor/precache-manifest.00e321cf9aa6c4417898fe66e1e0872f.js"
+  "/chatboat-editor/precache-manifest.6136b9ca01a11c6748eac626cfe27a6c.js"
 );
 
 self.addEventListener('message', (event) => {
