@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 export const MainQuestionEdit = ({
   questions,
@@ -7,7 +7,18 @@ export const MainQuestionEdit = ({
   handleOnChange,
   handleAddEditChatOption,
   clearForm,
+  deleteOption,
 }) => {
+  const [deleteChatId, setDelete] = useState(-1);
+  const handleDelete = (event, chat_id) => {
+    event.stopPropagation();
+    if (deleteChatId === chat_id) {
+      setDelete(-1)
+      deleteOption(chat_id)
+    } else {
+      setDelete(chat_id)
+    }
+  }
   return (
     <form onSubmit={(event) => handleSubmit(event, false)}>
       <h3>Enter your chat details</h3>
@@ -85,6 +96,12 @@ export const MainQuestionEdit = ({
                 <small>{q.chat_desc}</small>
               </p>
             )}
+            <span className={`btn ${deleteChatId === q.chat_id ? 'btn-danger' : 'btn-outline-danger'} btn-sm`} onClick={(event) => handleDelete(event, q.chat_id)}>{deleteChatId === q.chat_id ? 'Confirm Delete' : 'Delete'}</span>
+            {
+              deleteChatId === q.chat_id && (
+                <span className={`btn btn-link btn-sm text-warning`} onClick={(event) => handleDelete(event, -1)}>Cancel</span>
+              )
+            }
           </button>
         ))}
       </div>
@@ -98,14 +115,15 @@ export const MainQuestionEdit = ({
             onChange={(event) => handleOnChange(event, false)}
             value={currentQuestion.reply_id}
           >
-            <option value="">Select Chat Replay</option>
+            <option value={null} disabled>Select Chat Replay</option>
+            <option value="">No Reply</option>
             {questions.map((q, i) => (
               <option
                 key={'opt_' + i}
                 value={q.chat_id}
                 disabled={q.reply_id === currentQuestion.chat_id}
               >
-                {q.chat_label}
+                {'#' + q.chat_id} : {q.chat_label || q.chat_desc}
               </option>
             ))}
           </select>

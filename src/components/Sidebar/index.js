@@ -47,6 +47,7 @@ class Sidebar extends React.Component {
         currentQuestion,
         ifEditing: true,
       });
+      this.handleBack();
     }
     if (_questions.length !== questions.length) {
       currentQuestion.chat_id = questions.length;
@@ -73,11 +74,11 @@ class Sidebar extends React.Component {
       const _chatOptionsQuestion = { ...chatOptionsQuestion };
       _chatOptionsQuestion.reply_id = parseInt(_chatOptionsQuestion.reply_id);
       const _currentQuestion = { ...currentQuestion };
-      const opts = _currentQuestion.chat_options;
-      opts.push({ ..._chatOptionsQuestion });
-      _currentQuestion.chat_options = opts;
+      console.log(_chatOptionsQuestion.chat_options.length);
+      _currentQuestion.chat_options = [..._currentQuestion.chat_options, _chatOptionsQuestion];
       _currentQuestion.type = 'ol';
       _currentQuestion.reply_id = '';
+      console.log(_chatOptionsQuestion.chat_options.length);
       this.setState(
         {
           currentQuestion: _currentQuestion,
@@ -125,10 +126,6 @@ class Sidebar extends React.Component {
     });
   }
   handleAddEditChatOption(currQuest) {
-    if (!this.state.ifEditing) {
-      this.showError('Please save the chat in order to add options into it');
-      return;
-    }
     if (currQuest) {
       const { currentQuestion } = this.state;
       const found = currentQuestion.chat_options.filter(
@@ -137,13 +134,15 @@ class Sidebar extends React.Component {
       if (found.length) {
         this.setState({
           chatOptionsQuestion: found[0],
+          ifEditing: true
         });
       } else {
         const id = currQuest.chat_id * 100 + currQuest.chat_options.length;
-        const { chatOptionsQuestion } = this.state;
-        chatOptionsQuestion.chat_id = id;
+        const _chatOptionsQuestion = this.state.chatOptionsQuestion;
+        _chatOptionsQuestion.chat_id = id;
         this.setState({
-          chatOptionsQuestion,
+          chatOptionsQuestion: _chatOptionsQuestion,
+          ifEditing: true
         });
       }
     }
@@ -158,7 +157,16 @@ class Sidebar extends React.Component {
     _chatOptionsQuestion.type = '';
     this.setState({
       chatOptionsQuestion: _chatOptionsQuestion,
+      ifEditing: false
     });
+  }
+  deleteOption(chat_id) {
+    const _currentQuestion = { ...this.state.currentQuestion };
+    const co = _currentQuestion.chat_options.filter(c => c.chat_id !== chat_id);
+    _currentQuestion.chat_options = co;
+    this.setState({
+      currentQuestion: _currentQuestion
+    })
   }
   render() {
     const {
@@ -184,21 +192,33 @@ class Sidebar extends React.Component {
             }
           />
         ) : (
-          <MainQuestionEdit
-            clearForm={this.clearForm.bind(this)}
-            handleAddEditChatOption={(ques) =>
-              this.handleAddEditChatOption(ques)
-            }
-            questions={questions}
-            currentQuestion={currentQuestion}
-            handleOnChange={(event, ifOption) =>
-              this.handleOnChange(event, ifOption)
-            }
-            handleSubmit={(event, ifOption) =>
-              this.handleSubmit(event, ifOption)
-            }
-          />
-        )}
+            <>
+              <div className="form-group">
+                <h3 htmlFor="jsonField">If you already have json paste here</h3>
+                <textarea
+                  className="form-control"
+                  rows="4" id="jsonField"
+                  value={this.props.jsonValue}
+                  placeholder="Paste your json here..."
+                  onChange={this.props.handleJSONchange}></textarea>
+              </div>
+              <MainQuestionEdit
+                clearForm={this.clearForm.bind(this)}
+                handleAddEditChatOption={(ques) =>
+                  this.handleAddEditChatOption(ques)
+                }
+                deleteOption={this.deleteOption.bind(this)}
+                questions={questions}
+                currentQuestion={currentQuestion}
+                handleOnChange={(event, ifOption) =>
+                  this.handleOnChange(event, ifOption)
+                }
+                handleSubmit={(event, ifOption) =>
+                  this.handleSubmit(event, ifOption)
+                }
+              />
+            </>
+          )}
         {Object.keys(errors).length ? (
           <div className="my-3">
             <h5>Errors:</h5>

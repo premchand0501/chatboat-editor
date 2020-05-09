@@ -68,7 +68,6 @@ export const ChatOptionQuestionEdit = ({
         >
           <option value="">Select Type</option>
           <option value="q">Question</option>
-          <option value="ol">Options List</option>
           <option value="a">Answer</option>
           <option value="c">Contact us</option>
           <option value="i">Info Message</option>
@@ -83,14 +82,15 @@ export const ChatOptionQuestionEdit = ({
           onChange={(event) => handleOnChange(event, true)}
           value={chatOptionsQuestion.reply_id}
         >
-          <option value="">Select Chat Replay</option>
+          <option value={null} disabled>Select Chat Replay</option>
+          <option value="">No Reply</option>
           {questions.map((q, i) => (
             <option
               key={'opt_' + i}
               value={q.chat_id}
               disabled={q.reply_id === currentQuestion.chat_id}
             >
-              {q.chat_label}
+              {'#' + q.chat_id} : {q.chat_label || q.chat_desc}
             </option>
           ))}
         </select>

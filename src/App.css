@@ -14,6 +14,7 @@ html {
   height: 100vh;
   background-color: #f6f6f6;
   padding: 1rem;
+  padding-top: 100px;
 }
 .questions .card {
   cursor: pointer;
@@ -21,12 +22,16 @@ html {
 .fade-scale-up {
   animation: fade-scale-up 1s ease forwards 1;
 }
+select {
+  background-color: white;
+  -webkit-appearance: none;
+}
 @keyframes fade-scale-up {
   0% {
     opacity: 0;
     transform: scale(1);
   }
-  50% {
+  20% {
     opacity: 1;
     transform: scale(1);
   }
@@ -34,20 +39,49 @@ html {
     transform: scale(1.05);
   }
   100% {
+    opacity: 1;
     transform: scale(1);
   }
 }
 .questions .action-bar {
-  position: sticky;
+  position: fixed;
   z-index: 10;
-  top: -1rem;
+  top: 0;
   right: 0;
-  width: 100%;
+  width: 50%;
   padding: 1rem;
   background-color: #eee;
+  flex-wrap: wrap;
 }
-@media (max-width: 768) {
+@media (max-width: 768px) {
   .questions .action-bar {
-    width: 50%;
+    width: 100%;
   }
+  .sidebar {
+    padding-top: 110px;
+  }
+}
+.toast-wrapper {
+  position: fixed;
+  bottom: 0;
+  right: 1rem;
+  width: 100%;
+  max-width: 300px;
+  max-height: 100vh;
+  overflow-y: auto;
+  z-index: 1100;
+  padding: 1rem;
+  display: flex;
+  align-items: flex-end;
+  flex-direction: column;
+}
+.toast {
+  min-height: min-content;
+  width: 100%;
+  font-weight: 600;
+  left: 1rem;
+  background-color: #222;
+  color: rgb(255, 251, 0);
+  font-size: 1.25rem;
+  animation: fade-scale-up 0.5s ease forwards 1;
 }
