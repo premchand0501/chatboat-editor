@@ -181,7 +181,6 @@ class App extends React.Component {
               errorMsg.map(m => (
                 <div className="alert alert-dark my-2 p-3 toast border-0" role="alert" key={m.msg}>
                   {m.msg}
-                  {m.timestamp}
                   <br></br>
                   <button className="btn btn-outline-light my-2" onClick={() => this.removeErr(m.timer(), m.timestamp)}>Done</button>
                 </div>
