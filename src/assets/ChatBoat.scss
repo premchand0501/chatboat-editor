@@ -1,0 +1,242 @@
+html {
+  font-size: 14px;
+}
+.ChatBoat {
+  .chatBody {
+    position: fixed;
+    bottom: 5rem;
+    right: 1rem;
+    box-shadow: 0 2px 2px rgba($color: #000000, $alpha: 0.1);
+    padding: 0;
+    width: 100%;
+    max-width: 400px;
+    height: 80vh;
+    display: flex;
+    align-items: flex-start;
+    justify-content: space-between;
+    flex-direction: row;
+    border-radius: 1.5rem;
+    border: none;
+    transition: all 0.5s ease;
+    background-color: #fff;
+    overflow: hidden;
+    flex-wrap: wrap;
+
+    .chatHeader {
+      height: 4rem;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0.5rem 1rem;
+      flex: 1;
+      background-color: #f6f6f6c0;
+      // border-bottom: 1px solid #ddd;
+      flex-basis: 100%;
+      cursor: pointer;
+
+      .title {
+        flex-direction: row;
+        display: flex;
+        height: 2rem;
+        align-items: center;
+        font-weight: 600;
+        img {
+          width: 4rem;
+          height: 4rem;
+        }
+      }
+      .close-btn {
+        font-size: 2rem;
+        padding: 0;
+        width: 2rem;
+        height: 2rem;
+        border: 0;
+        color: #111;
+        line-height: 1;
+      }
+    }
+  }
+  .chatHead {
+    position: fixed;
+    bottom: 1rem;
+    right: 1rem;
+    box-shadow: 0 2px 4px rgba($color: #000000, $alpha: 0.1);
+    padding: 0;
+    width: 3rem;
+    height: 3rem;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    border-radius: 1.5rem;
+    border: none;
+    transition: all 0.5s ease;
+    img {
+      width: 3rem;
+      height: 3rem;
+      object-fit: cover;
+      padding: 0.25rem;
+    }
+    span {
+      font-weight: 600;
+      transform: translateX(1000px);
+      transition: all 0.15s ease;
+      transform-origin: left;
+      width: 0;
+      opacity: 0;
+    }
+    &:hover {
+      box-shadow: 0 4px 8px rgba($color: #000000, $alpha: 0.1);
+      transition: all 0.5s ease;
+      min-width: 3rem;
+      width: auto;
+      background-color: #fff;
+      span {
+        padding-right: 0.5rem;
+        transform: translateX(0px);
+        width: auto;
+        opacity: 1;
+        transition: all 0.35s ease;
+      }
+    }
+  }
+  .chatList {
+    height: calc(100% - 8rem);
+    padding: 0.5rem;
+    width: 100%;
+    overflow: auto;
+
+    > .list-group-item {
+      margin: 0.5rem 0;
+      border: none;
+      padding: 0;
+      display: flex;
+      flex-direction: row;
+      align-items: flex-end;
+      max-width: 70%;
+      .msg {
+        padding: 0.5rem 0.75rem;
+        border-radius: 1rem;
+        border-bottom-left-radius: 0.25rem;
+        border: 1px solid #ddd;
+        animation: fadeUp 0.5s ease forwards 1;
+        cursor: pointer;
+        small {
+          white-space: nowrap;
+        }
+      }
+      &.i {
+        justify-content: center;
+        max-width: 100%;
+        .msg {
+          border-radius: 1rem;
+          font-size: 0.75rem;
+          background-color: #f6f6f6;
+          border: none;
+        }
+      }
+      &.a:not(.i) {
+        align-self: flex-end;
+        flex-direction: row-reverse;
+        .chat-icon {
+          margin-left: 0.5rem;
+          margin-right: 0;
+        }
+        .msg {
+          border-radius: 1rem;
+          border-bottom-right-radius: 0.25rem;
+          background: #007bff;
+          color: white;
+          border-color: #007bff;
+        }
+      }
+
+      .chat-icon {
+        width: 2rem;
+        height: 2rem;
+        background: #fff no-repeat center / cover;
+        display: block;
+        border-radius: 1rem;
+        margin-right: 0.5rem;
+        object-fit: cover;
+        border: 1px solid #f6f6f6;
+      }
+      &.i {
+        .chat-icon {
+          display: none;
+        }
+      }
+    }
+  }
+  .chatFooter {
+    height: 4rem;
+    background-color: #f6f6f6c0;
+    // border-top: 1px solid #ddd;
+    display: flex;
+    flex-basis: 100%;
+    max-width: 100%;
+    align-items: center;
+    justify-content: space-between;
+    padding: 0.5rem;
+    .btn {
+      margin: 0 0.5rem;
+    }
+    .addAttachmentBtn {
+      padding: 0.5rem;
+      text-decoration: none;
+      width: 3rem;
+      height: 3rem;
+      color: #888;
+    }
+    .input-group {
+      background: white;
+      border-radius: 0.5rem;
+      .btn {
+        margin: 0;
+      }
+      .form-control {
+        background-color: transparent;
+        border: none;
+        border-radius: 0.5rem;
+        height: 3rem;
+      }
+    }
+  }
+}
+@keyframes fadeUp {
+  from {
+    opacity: 0;
+    transform: translateY(-5px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+@keyframes hide-bot {
+  0% {
+    height: 80vh;
+    width: 400px;
+    opacity: 1;
+    padding: 0 !important;
+  }
+  50% {
+    height: 4rem;
+    width: 400px;
+    opacity: 1;
+  }
+  70% {
+    width: 400px;
+    height: 4rem;
+    opacity: 1;
+  }
+  90% {
+    width: 0;
+    height: 4rem;
+    opacity: 1;
+  }
+  100% {
+    width: 0;
+    height: 0;
+    opacity: 0;
+  }
+}

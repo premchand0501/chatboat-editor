@@ -2,14 +2,16 @@
   "name": "chatboat",
   "version": "0.1.0",
   "private": false,
-  "homepage": "https://premchand0501.github.io/chatboat-editor/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",
     "@testing-library/user-event": "^7.1.2",
     "gh-pages": "^2.2.0",
+    "moment": "^2.25.3",
+    "node-sass": "^4.14.1",
     "react": "^16.13.1",
     "react-dom": "^16.13.1",
+    "react-icons": "^3.10.0",
     "react-scripts": "3.4.1"
   },
   "scripts": {
