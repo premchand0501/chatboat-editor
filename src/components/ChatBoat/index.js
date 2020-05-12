@@ -10,7 +10,11 @@ class ChatBoat extends React.Component {
       toggleChat: true,
       chatList: chatList || [],
       questions: questionJson || [],
-      jsonPath
+      jsonPath,
+      contactUs: { chat_id: 4, chat_label: "Procam Slam - General Query", chat_desc: "Kindly visit [Procam Slam Website, https://www.procam.in/procam-slam-2020, _blank]", chat_options: Array(0), type: "c" },
+      email: '',
+      message: '',
+      attachment: null,
     }
   }
   async componentDidMount() {
@@ -47,13 +51,17 @@ class ChatBoat extends React.Component {
   }
   replay(chat) {
     const { reply_id } = chat;
+    if (!reply_id) {
+      return;
+    }
     const { questions, chatList } = this.state;
     const reply = questions.filter(ch => ch.chat_id === reply_id);
-    console.log(chat, reply);
+    console.log(chat, reply, reply_id);
     this.setState({
       chatList: [...chatList, chat]
     }, () => {
       if (reply.length) {
+        console.log(...reply);
         this.setState({
           chatList: [...this.state.chatList, ...reply]
         });
@@ -64,11 +72,48 @@ class ChatBoat extends React.Component {
   componentDidUpdate() {
     document.querySelector('.chatList > .list-group-item:last-child').scrollIntoView({ behavior: 'smooth' })
   }
-  contactUs(chat) {
-    console.log(chat)
+  setContactUs(chat) {
+    this.setState({
+      contactUs: chat
+    })
+  }
+  handleSubmit(event) {
+    event.preventDefault();
+    const { contactUs, email, message } = this.state;
+    if (contactUs.email) {
+      const _c = { ...contactUs };
+      _c.message = message;
+      this.setState({
+        contactUs: _c
+      });
+    }
+    else {
+      const _contactUs = { ...contactUs }
+      _contactUs.email = email;
+      console.log(email);
+      this.setState({
+        contactUs: _contactUs
+      })
+    }
+  }
+  handleOnChange(event) {
+    const target = event.target;
+    const name = target.name;
+    if (name === 'attachment') {
+      const _c = { ...this.state.contactUs };
+      _c.attachment = target.files[0];
+      this.setState({
+        contactUs: _c
+      })
+    }
+    else {
+      this.setState({
+        [name]: target.value
+      })
+    }
   }
   render() {
-    const { toggleChat, chatList } = this.state;
+    const { toggleChat, chatList, contactUs, email, message, attachment } = this.state;
     const { handleLoadEditor, chatHeadIcon, chatHeadMsg, chatHeadTitle } = this.props;
     return (
       <div className="ChatBoat">
@@ -82,12 +127,18 @@ class ChatBoat extends React.Component {
         {
           toggleChat && (
             <ChatBody
-              contactUs={this.contactUs.bind(this)}
+              handleSubmit={this.handleSubmit.bind(this)}
+              email={email}
+              attachment={attachment}
+              message={message}
+              contactUs={contactUs}
+              setContactUs={this.setContactUs.bind(this)}
               replay={(reply_id) => this.replay(reply_id)}
               chatList={chatList}
               chatHeadTitle={chatHeadTitle}
               chatHeadIcon={chatHeadIcon}
-              toggleChatBody={this.toggleChatBody.bind(this)} />
+              toggleChatBody={this.toggleChatBody.bind(this)}
+              handleOnChange={this.handleOnChange.bind(this)} />
           )
         }
       </div>
