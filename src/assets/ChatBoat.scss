@@ -114,12 +114,13 @@ html {
       flex-direction: row;
       align-items: flex-end;
       max-width: 70%;
+      min-height: min-content;
       .msg {
         padding: 0.5rem 0.75rem;
         border-radius: 1rem;
         border-bottom-left-radius: 0.25rem;
         border: 1px solid #ddd;
-        animation: fadeUp 0.5s ease forwards 1;
+        // animation: fadeUp 0.5s ease forwards 1;
         cursor: pointer;
         small {
           white-space: nowrap;
@@ -154,7 +155,7 @@ html {
       .chat-icon {
         width: 2rem;
         height: 2rem;
-        background: #fff no-repeat center / cover;
+        background: #fff no-repeat center / contain;
         display: block;
         border-radius: 1rem;
         margin-right: 0.5rem;
@@ -179,7 +180,7 @@ html {
     justify-content: space-between;
     padding: 0.5rem;
     position: relative;
-    animation: slideUp 0.5s ease forwards 1;
+    // animation: slideUp 0.5s ease forwards 1;
 
     .contactUsForChat {
       position: absolute;
@@ -192,7 +193,7 @@ html {
       left: 0;
       padding: 0.5rem 0.75rem;
       opacity: 0;
-      animation: fadeUp 0.5s 0.2s ease forwards 1;
+      // animation: fadeUp 0.5s 0.2s ease forwards 1;
       .email {
         line-height: 2rem;
         max-width: 80%;

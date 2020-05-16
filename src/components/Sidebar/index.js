@@ -32,6 +32,9 @@ class Sidebar extends React.Component {
       ifEditing,
       errors: {},
     };
+    this.handleBack.bind(this);
+    this.clearForm.bind(this);
+    this.deleteOption.bind(this);
   }
   componentDidUpdate() {
     const { editQuestion, questions } = this.props;
@@ -186,7 +189,7 @@ class Sidebar extends React.Component {
             handleOnChange={(event, ifOption) =>
               this.handleOnChange(event, ifOption)
             }
-            handleBack={this.handleBack.bind(this)}
+            handleBack={this.handleBack}
             handleSubmit={(event, ifOption) =>
               this.handleSubmit(event, ifOption)
             }
@@ -203,11 +206,11 @@ class Sidebar extends React.Component {
                   onChange={this.props.handleJSONchange}></textarea>
               </div>
               <MainQuestionEdit
-                clearForm={this.clearForm.bind(this)}
+                clearForm={this.clearForm}
                 handleAddEditChatOption={(ques) =>
                   this.handleAddEditChatOption(ques)
                 }
-                deleteOption={this.deleteOption.bind(this)}
+                deleteOption={this.deleteOption}
                 questions={questions}
                 currentQuestion={currentQuestion}
                 handleOnChange={(event, ifOption) =>

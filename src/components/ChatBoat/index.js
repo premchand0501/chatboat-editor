@@ -1,6 +1,9 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import '../../assets/ChatBoat.scss';
 import { ChatBody } from './ChatBody';
+import { withShowToast } from '../SnackBar';
+
+const Editor = React.lazy(() => import('../Editor'));
 
 class ChatBoat extends React.Component {
   constructor(props) {
@@ -16,6 +19,10 @@ class ChatBoat extends React.Component {
       message: '',
       attachment: null,
     }
+    this.handleSubmit.bind(this);
+    this.setContactUs.bind(this);
+    this.toggleChatBody.bind(this);
+    this.handleOnChange.bind(this);
   }
   async componentDidMount() {
     try {
@@ -70,16 +77,25 @@ class ChatBoat extends React.Component {
 
   }
   componentDidUpdate() {
-    document.querySelector('.chatList > .list-group-item:last-child').scrollIntoView({ behavior: 'smooth' })
+    const chatListEl = document.querySelector('.chatList > .list-group-item:last-child');
+    chatListEl && chatListEl.scrollIntoView({ behavior: 'smooth' })
   }
   setContactUs(chat) {
     this.setState({
       contactUs: chat
     })
   }
+  isValidEmail(email) {
+    return /^([a-zA-Z0-9_\-\.]+)@([a-zA-Z0-9_\-\.]+)\.([a-zA-Z]{2,5})$/.test(email);
+  }
   handleSubmit(event) {
     event.preventDefault();
+    const { showToast } = this.props;
     const { contactUs, email, message } = this.state;
+    if (!this.isValidEmail(email)) {
+      showToast('Please provide valid email', 10000);
+      return;
+    }
     if (contactUs.email) {
       const _c = { ...contactUs };
       _c.message = message;
@@ -114,7 +130,7 @@ class ChatBoat extends React.Component {
   }
   render() {
     const { toggleChat, chatList, contactUs, email, message, attachment } = this.state;
-    const { handleLoadEditor, chatHeadIcon, chatHeadMsg, chatHeadTitle } = this.props;
+    const { handleLoadEditor, chatHeadIcon, chatHeadMsg, chatHeadTitle, loadEditor } = this.props;
     return (
       <div className="ChatBoat">
         <button className="btn btn-link" onClick={handleLoadEditor}>Load Editor</button>
@@ -127,18 +143,25 @@ class ChatBoat extends React.Component {
         {
           toggleChat && (
             <ChatBody
-              handleSubmit={this.handleSubmit.bind(this)}
+              handleSubmit={this.handleSubmit}
               email={email}
               attachment={attachment}
               message={message}
               contactUs={contactUs}
-              setContactUs={this.setContactUs.bind(this)}
+              setContactUs={this.setContactUs}
               replay={(reply_id) => this.replay(reply_id)}
               chatList={chatList}
               chatHeadTitle={chatHeadTitle}
               chatHeadIcon={chatHeadIcon}
-              toggleChatBody={this.toggleChatBody.bind(this)}
-              handleOnChange={this.handleOnChange.bind(this)} />
+              toggleChatBody={this.toggleChatBody}
+              handleOnChange={this.handleOnChange} />
+          )
+        }
+        {
+          loadEditor && (
+            <Suspense fallback={<div>Loading Editor...</div>}>
+              <Editor />
+            </Suspense>
           )
         }
       </div>
@@ -146,4 +169,4 @@ class ChatBoat extends React.Component {
   }
 }
 
-export default ChatBoat;
+export default withShowToast(ChatBoat);

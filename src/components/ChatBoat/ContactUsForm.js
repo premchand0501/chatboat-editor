@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { FaTrashAlt, FaTimes, FaPlus, FaPaperPlane } from 'react-icons/fa';
 
-export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setContactUs, message, email, attachment }) => {
+export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setContactUs, message, email, copyMe }) => {
   const attachmentEl = useRef();
   return contactUs && contactUs.chat_id ? (
     <form className="chatFooter" onSubmit={handleSubmit}>
@@ -9,17 +9,23 @@ export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setCont
         <div className="w-100">
           {
             contactUs.email && (
-              <p className="m-0 email mb-2">
-                <button className="btn btn-link text-dark" type="button" onClick={() => {
-                  const _c = { ...contactUs };
-                  delete _c.email;
-                  console.log(_c);
-                  setContactUs(_c)
-                }}>
-                  <FaTrashAlt />
-                </button>
-                <small>From: {contactUs.email}</small>
-              </p>
+              <>
+                <p className="m-0 email mb-2">
+                  <button className="btn btn-link text-dark" type="button" onClick={() => {
+                    const _c = { ...contactUs };
+                    delete _c.email;
+                    console.log(_c);
+                    setContactUs(_c);
+                  }}>
+                    <FaTrashAlt />
+                  </button>
+                  <small>From: {contactUs.email}</small>
+                </p>
+                <div className="form-check ml-2">
+                  <input type="checkbox" className="form-check-input" id="copyMe" name="copyMe" value={copyMe} />
+                  <label htmlFor="copyMe" className="form-check-label">Copy Me</label>
+                </div>
+              </>
             )
           }
           {
@@ -53,7 +59,9 @@ export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setCont
         <button
           className="btn btn-link text-dark addAttachmentBtn"
           type="button"
-          onClick={() => attachmentEl.current.click()}>
+          onClick={() => {
+            attachmentEl.current.click();
+          }}>
           <FaPlus />
         </button>
       </div>

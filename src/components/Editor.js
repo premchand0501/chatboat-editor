@@ -1,6 +1,7 @@
 import React from 'react';
 import Sidebar from './Sidebar/';
 import Questions from './Questions';
+import { withShowToast } from './SnackBar';
 
 class Editor extends React.Component {
   constructor(props) {
@@ -9,9 +10,14 @@ class Editor extends React.Component {
       questions: [],
       editQuestion: null,
       jsonValue: '',
-      errorMsg: [],
       searchText: ''
     };
+    this.handleJSONchange.bind(this);
+    this.handleSaveQuestion.bind(this);
+    this.handleSearch.bind(this);
+    this.downloadJSON.bind(this);
+    this.setEditQuestion.bind(this);
+    this.deleteQuestion.bind(this)
   }
   componentDidMount() {
     const localQues = localStorage.getItem('questions');
@@ -79,35 +85,9 @@ class Editor extends React.Component {
     localStorage.setItem('questions', JSON.stringify(newQues));
     this.showError('Questions updated successfully')
   }
-  removeErr(timeout, timestamp) {
-    const { errorMsg } = this.state;
-    const filtered = errorMsg.filter(m => m.timestamp !== timestamp);
-    this.setState({
-      errorMsg: [...filtered],
-    });
-    clearTimeout(timeout);
-  }
   showError(msg, timer) {
-    const { errorMsg } = this.state;
-    const timestamp = Date.now();
-    const errorObj = {
-      msg, timer: () => {
-        const timeout = setTimeout(() => {
-          this.removeErr(timeout, timestamp);
-        }, timer || 5000);
-        return timeout;
-      },
-      timestamp
-    }
-    this.setState(
-      {
-        errorMsg: [...errorMsg, errorObj],
-      },
-      () => {
-        const r = errorObj.timer();
-        console.log('tmr', r);
-      }
-    );
+    const { showToast } = this.props;
+    showToast(msg, timer)
   }
   downloadJSON() {
     const download = (filename, text) => {
@@ -171,38 +151,25 @@ class Editor extends React.Component {
     this.saveQuestions(filtered);
   }
   render() {
-    const { questions, editQuestion, jsonValue, errorMsg, searchText } = this.state;
+    const { questions, editQuestion, jsonValue, searchText } = this.state;
     return (
       <div className="Editor container-fluid">
-        {errorMsg.length > 0 &&
-          <div className="toast-wrapper">
-            {
-              errorMsg.map(m => (
-                <div className="alert alert-dark my-2 p-3 toast border-0" role="alert" key={m.msg}>
-                  {m.msg}
-                  <br></br>
-                  <button className="btn btn-outline-light my-2" onClick={() => this.removeErr(m.timer(), m.timestamp)}>Done</button>
-                </div>
-              ))
-            }
-          </div>
-        }
         <div className="row">
           <Sidebar
             jsonValue={jsonValue}
-            handleJSONchange={this.handleJSONchange.bind(this)}
+            handleJSONchange={this.handleJSONchange}
             questions={questions}
             editQuestion={editQuestion}
-            saveQuestions={this.handleSaveQuestion.bind(this)}
+            saveQuestions={this.handleSaveQuestion}
           />
           <Questions
             searchText={searchText}
-            handleSearch={this.handleSearch.bind(this)}
-            downloadJSON={this.downloadJSON.bind(this)}
+            handleSearch={this.handleSearch}
+            downloadJSON={this.downloadJSON}
             questions={questions}
             editQuestion={editQuestion}
-            setEditQuestion={this.setEditQuestion.bind(this)}
-            deleteQuestion={this.deleteQuestion.bind(this)}
+            setEditQuestion={this.setEditQuestion}
+            deleteQuestion={this.deleteQuestion}
           />
         </div>
 
@@ -211,4 +178,4 @@ class Editor extends React.Component {
   }
 }
 
-export default Editor;
+export default withShowToast(Editor);

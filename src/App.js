@@ -1,36 +1,17 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useState } from 'react';
 import './assets/App.scss';
 import ChatBoat from './components/ChatBoat/';
-const Editor = React.lazy(() => import('./components/Editor'));
-
-class App extends React.Component {
-  state = {
-    loadEditor: false
-  }
-  handleLoadEditor() {
-    this.setState({
-      loadEditor: !this.state.loadEditor
-    })
-  }
-  render() {
-    const { loadEditor } = this.state;
-    return (
-      <>
-        <ChatBoat
-          handleLoadEditor={this.handleLoadEditor.bind(this)}
-          chatHeadTitle="TCS"
-          chatHeadMsg="Need Help?"
-          chatHeadIcon={require('./logo.svg')} />
-        {
-          loadEditor && (
-            <Suspense fallback={<div>Loading Editor...</div>}>
-              <Editor />
-            </Suspense>
-          )
-        }
-      </>
-    )
-  }
+import { ToastProvider } from './components/SnackBar';
+const App = () => {
+  const [loadEditor, handleLoadEditor] = useState(false);
+  return (<ToastProvider value={[]}>
+    <ChatBoat
+      loadEditor={loadEditor}
+      handleLoadEditor={() => handleLoadEditor(!loadEditor)}
+      chatHeadTitle="TCS"
+      chatHeadMsg="Need Help?"
+      chatHeadIcon={require('./logo.svg')} />
+  </ToastProvider>)
 }
 
 export default App;
