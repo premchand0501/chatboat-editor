@@ -32,9 +32,6 @@ class Sidebar extends React.Component {
       ifEditing,
       errors: {},
     };
-    this.handleBack.bind(this);
-    this.clearForm.bind(this);
-    this.deleteOption.bind(this);
   }
   componentDidUpdate() {
     const { editQuestion, questions } = this.props;
@@ -71,17 +68,14 @@ class Sidebar extends React.Component {
   }
   handleSubmit(event, ifOption) {
     event.preventDefault();
-    console.log('handlesubmit');
     const { chatOptionsQuestion, currentQuestion } = this.state;
     if (ifOption) {
       const _chatOptionsQuestion = { ...chatOptionsQuestion };
       _chatOptionsQuestion.reply_id = parseInt(_chatOptionsQuestion.reply_id);
       const _currentQuestion = { ...currentQuestion };
-      console.log(_chatOptionsQuestion.chat_options.length);
       _currentQuestion.chat_options = [..._currentQuestion.chat_options, _chatOptionsQuestion];
       _currentQuestion.type = 'ol';
       _currentQuestion.reply_id = '';
-      console.log(_chatOptionsQuestion.chat_options.length);
       this.setState(
         {
           currentQuestion: _currentQuestion,
@@ -114,7 +108,6 @@ class Sidebar extends React.Component {
     );
   }
   clearForm() {
-    console.log('clearform');
     this.props.saveQuestions(null);
     this.setState({
       ifEditing: false,
@@ -180,7 +173,7 @@ class Sidebar extends React.Component {
       errors,
     } = this.state;
     return (
-      <div className="sidebar col-12 col-md-6 col-sm-6">
+      <div className="sidebar col-12 col-md-3 col-sm-6">
         {chatOptionsQuestion.chat_id && ifEditing ? (
           <ChatOptionQuestionEdit
             questions={questions}
@@ -189,7 +182,7 @@ class Sidebar extends React.Component {
             handleOnChange={(event, ifOption) =>
               this.handleOnChange(event, ifOption)
             }
-            handleBack={this.handleBack}
+            handleBack={() => this.handleBack()}
             handleSubmit={(event, ifOption) =>
               this.handleSubmit(event, ifOption)
             }
@@ -205,20 +198,15 @@ class Sidebar extends React.Component {
                   placeholder="Paste your json here..."
                   onChange={this.props.handleJSONchange}></textarea>
               </div>
+              <hr></hr>
               <MainQuestionEdit
-                clearForm={this.clearForm}
-                handleAddEditChatOption={(ques) =>
-                  this.handleAddEditChatOption(ques)
-                }
-                deleteOption={this.deleteOption}
+                clearForm={() => this.clearForm()}
+                handleAddEditChatOption={(ques) => this.handleAddEditChatOption(ques)}
+                deleteOption={(id) => this.deleteOption}
                 questions={questions}
                 currentQuestion={currentQuestion}
-                handleOnChange={(event, ifOption) =>
-                  this.handleOnChange(event, ifOption)
-                }
-                handleSubmit={(event, ifOption) =>
-                  this.handleSubmit(event, ifOption)
-                }
+                handleOnChange={(event, ifOption) => this.handleOnChange(event, ifOption)}
+                handleSubmit={(event, ifOption) => this.handleSubmit(event, ifOption)}
               />
             </>
           )}

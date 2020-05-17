@@ -14,7 +14,6 @@ export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setCont
                   <button className="btn btn-link text-dark" type="button" onClick={() => {
                     const _c = { ...contactUs };
                     delete _c.email;
-                    console.log(_c);
                     setContactUs(_c);
                   }}>
                     <FaTrashAlt />
@@ -42,7 +41,7 @@ export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setCont
               </p>
             )
           }
-          <p className="m-0 subject">Subject: {contactUs.chat_label}</p>
+          <p className="my-2 mx-0 subject">Subject: {contactUs.chat_label}</p>
         </div>
         <button className="btn btn-outline-dark" type="button" onClick={() => setContactUs(null)}>
           <FaTimes />

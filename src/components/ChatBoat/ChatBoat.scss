@@ -1,6 +1,5 @@
-html {
-  font-size: 14px;
-}
+@import './main.scss';
+
 .ChatBoat {
   .chatBody {
     position: fixed;
@@ -159,7 +158,6 @@ html {
         display: block;
         border-radius: 1rem;
         margin-right: 0.5rem;
-        object-fit: cover;
         border: 1px solid #f6f6f6;
       }
       &.i {
@@ -192,7 +190,6 @@ html {
       background: #eee;
       left: 0;
       padding: 0.5rem 0.75rem;
-      opacity: 0;
       // animation: fadeUp 0.5s 0.2s ease forwards 1;
       .email {
         line-height: 2rem;

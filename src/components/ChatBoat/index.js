@@ -1,56 +1,53 @@
-import React, { Suspense } from 'react';
-import '../../assets/ChatBoat.scss';
+import React from 'react';
+import './ChatBoat.scss';
 import { ChatBody } from './ChatBody';
-import { withShowToast } from '../SnackBar';
-
-const Editor = React.lazy(() => import('../Editor'));
+import { withShowToast, ToastProvider } from '../ToastMsg';
 
 class ChatBoat extends React.Component {
   constructor(props) {
     super(props);
-    const { chatList, questionJson, jsonPath } = props;
+    const { chatList, questionJson, jsonpath } = props;
     this.state = {
-      toggleChat: true,
+      toggleChat: false,
       chatList: chatList || [],
       questions: questionJson || [],
-      jsonPath,
-      contactUs: { chat_id: 4, chat_label: "Procam Slam - General Query", chat_desc: "Kindly visit [Procam Slam Website, https://www.procam.in/procam-slam-2020, _blank]", chat_options: Array(0), type: "c" },
+      jsonPath: jsonpath,
+      contactUs: null,//{ chat_id: 4, chat_label: "Procam Slam - General Query", chat_desc: "Kindly visit [Procam Slam Website, https://www.procam.in/procam-slam-2020, _blank]", chat_options: Array(0), type: "c" },
       email: '',
       message: '',
       attachment: null,
     }
-    this.handleSubmit.bind(this);
-    this.setContactUs.bind(this);
-    this.toggleChatBody.bind(this);
-    this.handleOnChange.bind(this);
   }
   async componentDidMount() {
-    try {
-      const res = await (await (fetch(this.state.jsonPath || 'questions_default.json'))).json();
-      if (res) {
-        if (res.length) {
-          const chat_0 = res.filter(ch => ch.chat_id === 0);
-          if (chat_0.length) {
-            this.setState({
-              questions: res,
-              chatList: [...this.state.chatList, ...chat_0]
-            });
-            setTimeout(() => {
-              if (chat_0[0].reply_id) {
-                const reply = res.filter(ch => ch.chat_id === chat_0[0].reply_id);
-                if (reply.length) {
-                  this.setState({
-                    chatList: [...this.state.chatList, ...reply]
-                  });
+    const { jsonpath } = this.props;
+    if (jsonpath) {
+      try {
+        const res = await (await (fetch(this.state.jsonPath))).json();
+        if (res) {
+          if (res.length) {
+            const chat_0 = res.filter(ch => ch.chat_id === 0);
+            if (chat_0.length) {
+              this.setState({
+                questions: res,
+                chatList: [...this.state.chatList, ...chat_0]
+              });
+              setTimeout(() => {
+                if (chat_0[0].reply_id) {
+                  const reply = res.filter(ch => ch.chat_id === chat_0[0].reply_id);
+                  if (reply.length) {
+                    this.setState({
+                      chatList: [...this.state.chatList, ...reply]
+                    });
+                  }
                 }
-              }
-            }, 300)
+              }, 300)
+            }
           }
         }
       }
-    }
-    catch (e) {
-      console.log(e)
+      catch (e) {
+        console.log(e)
+      }
     }
   }
   toggleChatBody(toggleChat) {
@@ -63,12 +60,10 @@ class ChatBoat extends React.Component {
     }
     const { questions, chatList } = this.state;
     const reply = questions.filter(ch => ch.chat_id === reply_id);
-    console.log(chat, reply, reply_id);
     this.setState({
       chatList: [...chatList, chat]
     }, () => {
       if (reply.length) {
-        console.log(...reply);
         this.setState({
           chatList: [...this.state.chatList, ...reply]
         });
@@ -106,7 +101,6 @@ class ChatBoat extends React.Component {
     else {
       const _contactUs = { ...contactUs }
       _contactUs.email = email;
-      console.log(email);
       this.setState({
         contactUs: _contactUs
       })
@@ -130,43 +124,46 @@ class ChatBoat extends React.Component {
   }
   render() {
     const { toggleChat, chatList, contactUs, email, message, attachment } = this.state;
-    const { handleLoadEditor, chatHeadIcon, chatHeadMsg, chatHeadTitle, loadEditor } = this.props;
+    const { icon, msg, title } = this.props;
     return (
-      <div className="ChatBoat">
-        <button className="btn btn-link" onClick={handleLoadEditor}>Load Editor</button>
-        <button className="btn btn-light chatHead" onClick={() => this.toggleChatBody(!toggleChat)}>
-          <img src={chatHeadIcon} className="img-fluid" alt="Chat Head" />
-          {chatHeadMsg &&
-            <span>{chatHeadMsg}</span>
+
+      <ToastProvider value={[]}>
+        <div className="ChatBoat">
+          <button className="btn btn-light chatHead" onClick={() => this.toggleChatBody(!toggleChat)}>
+            <img src={icon} className="img-fluid" alt="Chat Head" />
+            {msg &&
+              <span>{msg}</span>
+            }
+          </button>
+          {
+            toggleChat && (
+              <ChatBody
+                handleSubmit={(e) => this.handleSubmit(e)}
+                email={email}
+                attachment={attachment}
+                message={message}
+                contactUs={contactUs}
+                setContactUs={(c) => this.setContactUs(c)}
+                replay={(reply_id) => this.replay(reply_id)}
+                chatList={chatList}
+                chatHeadTitle={title}
+                chatHeadIcon={icon}
+                toggleChatBody={(c) => this.toggleChatBody(c)}
+                handleOnChange={(e) => this.handleOnChange(e)} />
+            )
           }
-        </button>
-        {
-          toggleChat && (
-            <ChatBody
-              handleSubmit={this.handleSubmit}
-              email={email}
-              attachment={attachment}
-              message={message}
-              contactUs={contactUs}
-              setContactUs={this.setContactUs}
-              replay={(reply_id) => this.replay(reply_id)}
-              chatList={chatList}
-              chatHeadTitle={chatHeadTitle}
-              chatHeadIcon={chatHeadIcon}
-              toggleChatBody={this.toggleChatBody}
-              handleOnChange={this.handleOnChange} />
-          )
-        }
-        {
-          loadEditor && (
-            <Suspense fallback={<div>Loading Editor...</div>}>
-              <Editor />
-            </Suspense>
-          )
-        }
-      </div>
+        </div>
+      </ToastProvider>
     )
   }
 }
 
-export default withShowToast(ChatBoat);
+withShowToast(ChatBoat);
+
+export default (props) => {
+  return (
+    <ToastProvider value={[]}>
+      <ChatBoat {...props} />
+    </ToastProvider>
+  )
+}

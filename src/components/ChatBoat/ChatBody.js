@@ -1,5 +1,4 @@
 import React from 'react';
-import '../../assets/ChatBoat.scss';
 import { ChatList } from './ChatList';
 import { ContactUsForm } from './ContactUsForm';
 
@@ -27,6 +26,7 @@ export const ChatBody = ({ chatHeadIcon, chatHeadTitle, toggleChatBody, message,
         setContactUs={setContactUs}
         handleSubmit={handleSubmit}
         handleOnChange={handleOnChange} />
+
     </div>
   )
 }

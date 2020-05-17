@@ -1,7 +1,8 @@
 import React from 'react';
-import Sidebar from './Sidebar/';
+import Sidebar from './Sidebar';
 import Questions from './Questions';
-import { withShowToast } from './SnackBar';
+import { withShowToast } from '../ToastMsg';
+import './Editor.scss';
 
 class Editor extends React.Component {
   constructor(props) {
@@ -12,12 +13,6 @@ class Editor extends React.Component {
       jsonValue: '',
       searchText: ''
     };
-    this.handleJSONchange.bind(this);
-    this.handleSaveQuestion.bind(this);
-    this.handleSearch.bind(this);
-    this.downloadJSON.bind(this);
-    this.setEditQuestion.bind(this);
-    this.deleteQuestion.bind(this)
   }
   componentDidMount() {
     const localQues = localStorage.getItem('questions');
@@ -123,7 +118,6 @@ class Editor extends React.Component {
           }
           return false;
         })
-        console.log(valids)
         localStorage.setItem('jsonValue', value);
         localStorage.setItem('questions', JSON.stringify(json));
         this.setState({
@@ -157,19 +151,19 @@ class Editor extends React.Component {
         <div className="row">
           <Sidebar
             jsonValue={jsonValue}
-            handleJSONchange={this.handleJSONchange}
+            handleJSONchange={(event) => this.handleJSONchange(event)}
             questions={questions}
             editQuestion={editQuestion}
-            saveQuestions={this.handleSaveQuestion}
+            saveQuestions={(q) => this.handleSaveQuestion(q)}
           />
           <Questions
             searchText={searchText}
-            handleSearch={this.handleSearch}
-            downloadJSON={this.downloadJSON}
+            handleSearch={(v) => this.handleSearch(v)}
+            downloadJSON={() => this.downloadJSON()}
             questions={questions}
             editQuestion={editQuestion}
-            setEditQuestion={this.setEditQuestion}
-            deleteQuestion={this.deleteQuestion}
+            setEditQuestion={(q) => this.setEditQuestion(q)}
+            deleteQuestion={(id) => this.deleteQuestion(id)}
           />
         </div>
 

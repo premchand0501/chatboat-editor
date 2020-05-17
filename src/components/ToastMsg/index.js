@@ -1,5 +1,5 @@
 import React, { createContext, useReducer, useContext } from 'react';
-import '../../assets/Toaster.scss'
+import './Toaster.scss'
 
 const ToastStateContext = createContext();
 const ToastDispatchContext = createContext();
@@ -12,7 +12,6 @@ function ToastReducer(state, action) {
       }
     }
     case 'remove': {
-      console.log('remove', state, action);
       const { messages } = state;
       const found = messages.filter(m => m.timestamp === action.timestamp);
       const filtered = messages.filter(m => m.timestamp !== action.timestamp);
@@ -61,7 +60,6 @@ function useToastShow() {
     if (!msg) return;
     const timestamp = Date.now();
     const removeTimeout = () => setTimeout(() => {
-      console.log('settime')
       dispatch({ type: 'remove', timestamp });
     }, timeout || 5000);
     const toastObj = {
@@ -87,7 +85,6 @@ function ToastConsumer({ children }) {
             throw new Error('ToastConsumer must be used within a ToastProvider')
           }
           const { messages } = context;
-          console.log(context);
           return (
             <ToastDispatchContext.Consumer>
               {dispatch => (
@@ -99,7 +96,7 @@ function ToastConsumer({ children }) {
                         messages.map(m => (
                           <div
                             className="alert alert-success my-2 px-3 py-2 toast border-0"
-                            role="alert" key={m.msg + '_' + Math.random() * m.timestamp}>
+                            role="alert" key={'_' + Math.random() * m.timestamp}>
                             {m.msg}
                             <br></br>
                             <button
