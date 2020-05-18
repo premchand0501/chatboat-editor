@@ -74,12 +74,23 @@ class Sidebar extends React.Component {
       const _chatOptionsQuestion = { ...chatOptionsQuestion };
       _chatOptionsQuestion.reply_id = parseInt(_chatOptionsQuestion.reply_id);
       const _currentQuestion = { ...currentQuestion };
+      if (_currentQuestion.reply_id)
+        _currentQuestion.reply_id = parseInt(_currentQuestion.reply_id);
       const found = _currentQuestion.chat_options.filter(chat_op => chat_op.chat_id === chatOptionsQuestion.chat_id);
       if (found.length) {
-        _currentQuestion.chat_options = _currentQuestion.chat_options.map(chat_op => chat_op.chat_id === chatOptionsQuestion.chat_id ? chatOptionsQuestion : chat_op);
+        _currentQuestion.chat_options = _currentQuestion.chat_options.map(chat_op => {
+          chat_op.chat_id = parseInt(chat_op.chat_id);
+          chat_op.reply_id = parseInt(chat_op.reply_id);
+          console.log(chat_op.chat_id)
+          return chat_op.chat_id === chatOptionsQuestion.chat_id ? chatOptionsQuestion : chat_op
+        });
       }
       else {
         _currentQuestion.chat_options = [..._currentQuestion.chat_options, _chatOptionsQuestion];
+        _currentQuestion.chat_options.forEach(c => {
+          c.chat_id = parseInt(c.chat_id)
+          c.reply_id = parseInt(c.reply_id)
+        })
       }
       _currentQuestion.type = 'ol';
       _currentQuestion.reply_id = '';

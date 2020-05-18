@@ -53,6 +53,9 @@ class Editor extends React.Component {
   handleSaveQuestion(question) {
     if (question) {
       const { questions } = this.state;
+      question.chat_id = parseInt(question.chat_id);
+      if (question.reply_id)
+        question.reply_id = parseInt(question.reply_id);
       const found = questions.filter((q) => q.chat_id === question.chat_id);
       let newQues = [];
       if (found.length) {
@@ -76,6 +79,7 @@ class Editor extends React.Component {
     this.setState({
       questions: newQues,
       editQuestion: null,
+      jsonValue: JSON.stringify(newQues),
     });
     localStorage.setItem('questions', JSON.stringify(newQues));
     this.showError('Questions updated successfully')
