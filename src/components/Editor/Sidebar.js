@@ -46,6 +46,7 @@ class Sidebar extends React.Component {
       this.setState({
         currentQuestion,
         ifEditing: true,
+        questions,
       });
       this.handleBack();
     }
@@ -73,7 +74,13 @@ class Sidebar extends React.Component {
       const _chatOptionsQuestion = { ...chatOptionsQuestion };
       _chatOptionsQuestion.reply_id = parseInt(_chatOptionsQuestion.reply_id);
       const _currentQuestion = { ...currentQuestion };
-      _currentQuestion.chat_options = [..._currentQuestion.chat_options, _chatOptionsQuestion];
+      const found = _currentQuestion.chat_options.filter(chat_op => chat_op.chat_id === chatOptionsQuestion.chat_id);
+      if (found.length) {
+        _currentQuestion.chat_options = _currentQuestion.chat_options.map(chat_op => chat_op.chat_id === chatOptionsQuestion.chat_id ? chatOptionsQuestion : chat_op);
+      }
+      else {
+        _currentQuestion.chat_options = [..._currentQuestion.chat_options, _chatOptionsQuestion];
+      }
       _currentQuestion.type = 'ol';
       _currentQuestion.reply_id = '';
       this.setState(
