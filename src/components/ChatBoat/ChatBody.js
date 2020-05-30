@@ -15,6 +15,7 @@ export const ChatBody = ({ chatHeadIcon, chatHeadTitle, toggleChatBody, message,
         <button className="btn btn-outline-light close-btn" onClick={() => toggleChatBody(false)}>&times;</button>
       </header>
       <ChatList
+        style={{ height: contactUs && contactUs.chat_id ? 'calc(100% - 8rem)' : 'calc(100% - 4rem)' }}
         chatList={chatList}
         replay={replay}
         setContactUs={setContactUs} />

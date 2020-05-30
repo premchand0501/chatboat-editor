@@ -28,6 +28,7 @@ export const MainQuestionEdit = ({
         </div>
         <input
           type="text"
+          name="chat_id"
           className="form-control"
           value={currentQuestion.chat_id}
           onChange={(event) => handleOnChange(event, false)}
@@ -86,7 +87,7 @@ export const MainQuestionEdit = ({
         {currentQuestion.chat_options.map((q, ind) => (
           <button
             type="button"
-            className="btn btn-outline-dark mb-1 w-100"
+            className="btn btn-outline-dark mb-1 w-100 d-flex align-items-center justify-content-between text-left"
             key={'ol_ques_' + ind}
             onClick={() => handleAddEditChatOption(q)}
           >
@@ -96,10 +97,18 @@ export const MainQuestionEdit = ({
                 <small>{q.chat_desc}</small>
               </p>
             )}
-            <span className={`btn ${deleteChatId === q.chat_id ? 'btn-danger' : 'btn-outline-danger'} btn-sm`} onClick={(event) => handleDelete(event, q.chat_id)}>{deleteChatId === q.chat_id ? 'Confirm Delete' : 'Delete'}</span>
+            <span
+              className={`btn ${deleteChatId === q.chat_id ? 'btn-danger' : 'btn-outline-danger'} btn-sm`}
+              onClick={(event) => handleDelete(event, q.chat_id)}>
+              {deleteChatId === q.chat_id ? 'Confirm Delete' : 'Delete'}
+            </span>
             {
               deleteChatId === q.chat_id && (
-                <span className={`btn btn-link btn-sm text-warning`} onClick={(event) => handleDelete(event, -1)}>Cancel</span>
+                <span
+                  className={`btn btn-link btn-sm text-warning`}
+                  onClick={(event) => handleDelete(event, -1)}>
+                  Cancel
+                </span>
               )
             }
           </button>

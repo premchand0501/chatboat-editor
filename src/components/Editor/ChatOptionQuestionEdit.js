@@ -29,6 +29,7 @@ export const ChatOptionQuestionEdit = ({
         <input
           type="text"
           className="form-control"
+          name="chat_id"
           value={chatOptionsQuestion.chat_id}
           onChange={(event) => handleOnChange(event, true)}
         />

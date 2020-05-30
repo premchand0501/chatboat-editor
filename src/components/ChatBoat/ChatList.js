@@ -1,9 +1,9 @@
 import React from 'react';
 import { ChatBubble } from './ChatBubble';
 
-export const ChatList = ({ chatList, replay, setContactUs }) => {
+export const ChatList = ({ chatList, replay, setContactUs, style }) => {
   return (
-    <ul className="list-group chatList">
+    <ul className="list-group chatList" style={style}>
       {
         chatList && chatList.length ? chatList.map(que => (
           <ChatBubble

@@ -18,10 +18,9 @@ const getChatFormatted = (chat, setContactUs) => {
   }
   return (
     <>
-      <span>Click <span className="text-primary" onClick={(event) => {
-        event.stopPropagation();
-        setContactUs(chat);
-      }}>here</span> to contact us</span>
+      <span>{initialStr}</span>
+      <a href={anchorStr[1]} target={anchorStr[2]}>{anchorStr[0]}</a>
+      <span>{endStr}</span>
       {
         anchorStr && anchorStr.length ? (
           <>
@@ -30,9 +29,10 @@ const getChatFormatted = (chat, setContactUs) => {
           </>
         ) : null
       }
-      <span>{initialStr}</span>
-      <a href={anchorStr[1]} target={anchorStr[2]}>{anchorStr[0]}</a>
-      <span>{endStr}</span>
+      <span>Click <span className="text-primary" onClick={(event) => {
+        event.stopPropagation();
+        setContactUs(chat);
+      }}>here</span> to contact us</span>
     </>
   );
 }

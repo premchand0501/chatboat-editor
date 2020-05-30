@@ -6,22 +6,27 @@ const Editor = React.lazy(() => import('./components/Editor/'));
 
 const App = () => {
   const [loadEditor, handleLoadEditor] = useState(true);
+  const [questions, setQuests] = useState([]);
+  const [currentTab, changeTab] = useState('');
   return (
-    <ToastProvider value={[]}>
+    <>
+      <ToastProvider value={[]}>
+        {
+          loadEditor ? (
+            <Suspense fallback={<div>Loading Editor...</div>}>
+              <Editor setQuests={(qs) => setQuests(qs)} changeTab={changeTab} />
+            </Suspense>
+          ) : (
+              <button className="btn btn-link" onClick={handleLoadEditor}>Load Editor</button>
+            )
+        }
+      </ToastProvider>
       <ChatBoat
-        chatHeadTitle="TCS"
-        chatHeadMsg="Need Help?"
-        chatHeadIcon={require('./logo.svg')} />
-      {
-        loadEditor ? (
-          <Suspense fallback={<div>Loading Editor...</div>}>
-            <Editor />
-          </Suspense>
-        ) : (
-            <button className="btn btn-link" onClick={handleLoadEditor}>Load Editor</button>
-          )
-      }
-    </ToastProvider>
+        title="TCS"
+        msg="Need Help?"
+        icon={require('./logo.svg')}
+        questionJson={questions} />
+    </>
   )
 }
 

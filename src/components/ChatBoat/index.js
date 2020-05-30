@@ -7,6 +7,7 @@ class ChatBoat extends React.Component {
   constructor(props) {
     super(props);
     const { chatList, questionJson, jsonpath } = props;
+    console.log(questionJson)
     this.state = {
       toggleChat: false,
       chatList: chatList || [],
@@ -71,9 +72,33 @@ class ChatBoat extends React.Component {
     });
 
   }
+  static getDerivedStateFromProps(props, state) {
+    if (props.questionJson) {
+      const chat_0 = props.questionJson.filter(ch => ch.chat_id === 0);
+      if (chat_0.length && state.chatList.length === 0) {
+        return {
+          questions: [...props.questionJson],
+          chatList: [...chat_0]
+        }
+      }
+      return {
+        questions: [...props.questionJson]
+      };
+    }
+    return null;
+  }
   componentDidUpdate() {
+    const { chatList, questions } = this.state;
     const chatListEl = document.querySelector('.chatList > .list-group-item:last-child');
     chatListEl && chatListEl.scrollIntoView({ behavior: 'smooth' })
+    if (chatList.length === 1 && chatList[0].reply_id) {
+      const reply = questions.filter(ch => ch.chat_id === chatList[0].reply_id);
+      if (reply.length) {
+        this.setState({
+          chatList: [...chatList, ...reply],
+        });
+      }
+    }
   }
   setContactUs(chat) {
     this.setState({
@@ -124,11 +149,10 @@ class ChatBoat extends React.Component {
   }
   render() {
     const { toggleChat, chatList, contactUs, email, message, attachment } = this.state;
-    const { icon, msg, title } = this.props;
+    const { icon, msg, title, currentTab } = this.props;
     return (
-
       <ToastProvider value={[]}>
-        <div className="ChatBoat">
+        <div className={`ChatBoat ${currentTab === 'style' ? 'style col-12 col-md-9 col-sm-8' : ''}`}>
           <button className="btn btn-light chatHead" onClick={() => this.toggleChatBody(!toggleChat)}>
             <img src={icon} className="img-fluid" alt="Chat Head" />
             {msg &&
@@ -136,8 +160,9 @@ class ChatBoat extends React.Component {
             }
           </button>
           {
-            toggleChat && (
+            toggleChat || currentTab === 'style' && (
               <ChatBody
+                currentTab={currentTab}
                 handleSubmit={(e) => this.handleSubmit(e)}
                 email={email}
                 attachment={attachment}

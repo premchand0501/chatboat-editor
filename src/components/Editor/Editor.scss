@@ -3,10 +3,10 @@ html {
   font-size: 12px;
 }
 .Editor {
-  position: fixed;
-  z-index: 1000;
-  left: 0;
-  top: 0;
+  // position: fixed;
+  // z-index: 1000;
+  // left: 0;
+  // top: 0;
   width: 100%;
   height: 100vh;
   overflow-y: auto;
@@ -25,6 +25,14 @@ html {
   .questions .card {
     cursor: pointer;
     height: 100%;
+    transition: all 0.5s ease;
+    border-radius: 1rem;
+  }
+  .questions .card:hover {
+    box-shadow: 0 3px 10px rgba(0, 0, 0, 0.1);
+    transform: translateY(-2px);
+    overflow: hidden;
+    transition: all 0.5s ease;
   }
   select {
     background-color: white;
@@ -37,6 +45,22 @@ html {
     padding: 0.5rem 1rem;
     background-color: #eee;
     flex-wrap: wrap;
-    margin-top: -1rem;
+    border-radius: 1rem;
+  }
+}
+.ChatBoat {
+  .chatBody {
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.2);
+  }
+  &.style {
+    z-index: 120;
+    background-color: #fff;
+    right: 0;
+    position: fixed;
+    height: 100%;
+    .chatHead,
+    .chatBody {
+      right: 8rem;
+    }
   }
 }

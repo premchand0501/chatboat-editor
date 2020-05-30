@@ -1,9 +1,69 @@
-import React from 'react';
+import React, { Suspense } from 'react';
 import Sidebar from './Sidebar';
 import Questions from './Questions';
 import { withShowToast } from '../ToastMsg';
 import './Editor.scss';
 
+const ChatBoat = React.lazy(() => import('../ChatBoat/'));
+const dummyQuestion = [
+  {
+    "chat_id": 0,
+    "chat_label": "Welcome to ChatBoat",
+    "chat_desc": "",
+    "chat_options": [],
+    "type": "i",
+    "reply_id": 1
+  },
+  {
+    "chat_id": 0,
+    "chat_label": "How are you doing?",
+    "chat_desc": "",
+    "chat_options": [],
+    "type": "q",
+    "reply_id": 1
+  },
+  {
+    "chat_id": 0,
+    "chat_label": "I am doing good",
+    "chat_desc": "",
+    "chat_options": [],
+    "type": "a",
+    "reply_id": 1
+  },
+  {
+    "chat_id": 0,
+    "chat_label": "This is a sample option list",
+    "chat_desc": "",
+    "chat_options": [
+      {
+        "chat_id": 0,
+        "chat_label": "Option 1",
+        "chat_desc": "",
+        "chat_options": [],
+        "type": "ol",
+        "reply_id": 1
+      },
+      {
+        "chat_id": 0,
+        "chat_label": "Options 2",
+        "chat_desc": "",
+        "chat_options": [],
+        "type": "ol",
+        "reply_id": 1
+      },
+    ],
+    "type": "ol",
+    "reply_id": 1
+  },
+  {
+    "chat_id": 0,
+    "chat_label": "This will be subject line for contact us",
+    "chat_desc": "This will be in chat content",
+    "chat_options": [],
+    "type": "c",
+    "reply_id": 1
+  }
+]
 class Editor extends React.Component {
   constructor(props) {
     super(props);
@@ -11,12 +71,14 @@ class Editor extends React.Component {
       questions: [],
       editQuestion: null,
       jsonValue: '',
-      searchText: ''
+      searchText: '',
+      currentTab: 'style'
     };
   }
   componentDidMount() {
     const localQues = localStorage.getItem('questions');
     const localJson = localStorage.getItem('jsonValue');
+    const { setQuests } = this.props;
     let parsedLocalQs = null;
     if (localQues) {
       try {
@@ -31,11 +93,13 @@ class Editor extends React.Component {
         questions: parsedLocalQs,
         jsonValue: localJson,
       })
+      setQuests(parsedLocalQs)
     }
     else if (parsedLocalQs) {
       this.setState({
         questions: parsedLocalQs,
       })
+      setQuests(parsedLocalQs)
     }
     else if (localJson) {
       this.setState({
@@ -83,6 +147,7 @@ class Editor extends React.Component {
     });
     localStorage.setItem('questions', JSON.stringify(newQues));
     this.showError('Questions updated successfully')
+    this.props.setQuests(newQues)
   }
   showError(msg, timer) {
     const { showToast } = this.props;
@@ -112,7 +177,7 @@ class Editor extends React.Component {
     try {
       const json = JSON.parse(value);
       if (json && json.length) {
-        const valids = json.filter(j => {
+        json.filter(j => {
           if (j.hasOwnProperty('chat_id') && j.hasOwnProperty('chat_label') && j.hasOwnProperty('chat_options') &&
             j.hasOwnProperty('type') && j.hasOwnProperty('reply_id') && j.hasOwnProperty('chat_desc')) {
             return true;
@@ -148,27 +213,50 @@ class Editor extends React.Component {
     const filtered = questions.filter(q => q.chat_id !== chat_id);
     this.saveQuestions(filtered);
   }
+  changeTab(tab) {
+    this.props.changeTab(tab);
+    this.setState({
+      currentTab: tab
+    })
+  }
   render() {
-    const { questions, editQuestion, jsonValue, searchText } = this.state;
+    const { questions, editQuestion, jsonValue, searchText, currentTab } = this.state;
     return (
       <div className="Editor container-fluid">
         <div className="row">
           <Sidebar
+            currentTab={currentTab}
+            changeTab={tab => this.changeTab(tab)}
             jsonValue={jsonValue}
             handleJSONchange={(event) => this.handleJSONchange(event)}
             questions={questions}
             editQuestion={editQuestion}
             saveQuestions={(q) => this.handleSaveQuestion(q)}
           />
-          <Questions
-            searchText={searchText}
-            handleSearch={(v) => this.handleSearch(v)}
-            downloadJSON={() => this.downloadJSON()}
-            questions={questions}
-            editQuestion={editQuestion}
-            setEditQuestion={(q) => this.setEditQuestion(q)}
-            deleteQuestion={(id) => this.deleteQuestion(id)}
-          />
+          {
+            currentTab !== 'style' ? (
+              <Questions
+                searchText={searchText}
+                handleSearch={(v) => this.handleSearch(v)}
+                downloadJSON={() => this.downloadJSON()}
+                questions={questions}
+                editQuestion={editQuestion}
+                setEditQuestion={(q) => this.setEditQuestion(q)}
+                deleteQuestion={(id) => this.deleteQuestion(id)}
+              />
+            ) : (
+
+                <Suspense fallback={<div>Loading ChatBoat...</div>}>
+                  <ChatBoat
+                    currentTab={currentTab}
+                    title="TCS"
+                    msg="Style bot"
+                    icon={require('../../logo.svg')}
+                    questionJson={dummyQuestion} />
+                </Suspense>
+              )
+
+          }
         </div>
 
       </div>

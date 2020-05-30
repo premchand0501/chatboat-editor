@@ -1,0 +1,75 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+
+.container {
+  background-color: #eee;
+  border-radius: 0.5rem;
+}
+.chat-node-editor {
+  position: relative;
+  padding: 1em;
+  svg {
+    border: 1px solid rgb(221, 221, 221);
+    position: absolute;
+    top: 0;
+    left: 0;
+    pointer-events: none;
+    z-index: 1;
+  }
+  .chat-wrapper {
+    position: absolute;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    right: 0;
+    overflow: hidden;
+
+    .chat {
+      position: absolute;
+      width: 20em;
+      min-height: 50px;
+      background: white;
+      border: 1px solid #bbb;
+      border-radius: 0.5em;
+      padding: 1em;
+      top: 1em;
+      left: 1em;
+      cursor: move;
+      user-select: none;
+      transition: transform 0.1s linear;
+      will-change: left, top;
+
+      small {
+        font-weight: 700;
+        text-transform: uppercase;
+        color: #666;
+      }
+      h5 {
+        font-weight: 300;
+        font-size: 1.5em;
+      }
+      .node {
+        position: absolute;
+        min-width: 2em;
+        height: 2em;
+        border-radius: 1em;
+        border: 0.1em solid #666;
+        background-color: #bbb;
+        top: calc(50% - 0.5em);
+        right: -0.5em;
+        cursor: pointer;
+        z-index: 2;
+        line-height: 1;
+        font-size: 0.75em;
+        text-align: center;
+        padding: 0.25em;
+        &.connected {
+          border-color: red;
+          background-color: lighten($color: red, $amount: 35%);
+        }
+      }
+      .list-group-item {
+        padding: 0.75em 1.25em;
+      }
+    }
+  }
+}

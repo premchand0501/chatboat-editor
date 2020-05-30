@@ -21,21 +21,24 @@ const Questions = ({ questions, setEditQuestion, downloadJSON, searchText, handl
     }
   }
   return (
-    <div className="questions col-12 col-md-9 col-sm-6">
+    <div className="questions col-12 col-md-9 col-sm-8">
       <div className="action-bar d-flex align-items-center justify-content-between">
         <h5 className="m-0 ml-2">Chat boat Questions</h5>
-        <button className="btn btn-primary" onClick={downloadJSON}>
-          Download JSON
-        </button>
-        <div className="input-group px-0 mt-3" style={{ flexBasis: '100%' }}>
-          <input
-            type="text"
-            className="form-control"
-            value={searchText}
-            onChange={(event) => handleSearch(event.target.value)}
-          />
-          <div className="input-group-append">
-            <button className="btn btn-secondary" onClick={() => handleSearch('')}>Clear</button>
+        <div className="d-flex align-items-center justify-content-between my-1">
+          <button className="btn btn-primary mx-2" onClick={downloadJSON}>
+            Download JSON
+          </button>
+          <div className="input-group px-0" style={{ flex: 1 }}>
+            <input
+              type="text"
+              className="form-control"
+              value={searchText}
+              placeholder="Search here"
+              onChange={(event) => handleSearch(event.target.value)}
+            />
+            <div className="input-group-append">
+              <button className="btn btn-secondary" onClick={() => handleSearch('')}>Clear</button>
+            </div>
           </div>
         </div>
       </div>
