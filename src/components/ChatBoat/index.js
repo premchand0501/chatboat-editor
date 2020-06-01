@@ -160,7 +160,7 @@ class ChatBoat extends React.Component {
             }
           </button>
           {
-            toggleChat || currentTab === 'style' && (
+            (toggleChat || currentTab === 'style') && (
               <ChatBody
                 currentTab={currentTab}
                 handleSubmit={(e) => this.handleSubmit(e)}

@@ -1,0 +1,11 @@
+@import '../../../node_modules/bootstrap/scss/bootstrap.scss';
+.container-fluid {
+  min-height: 100vh;
+}
+.card {
+  cursor: pointer;
+  user-select: none;
+  &.dragover {
+    border: 2px dashed rgb(27, 224, 132);
+  }
+}
