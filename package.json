@@ -2,7 +2,6 @@
   "name": "chatboat",
   "version": "0.1.0",
   "private": false,
-  "homepage": "http://premchand0501.github.io/chatboat-editor/",
   "dependencies": {
     "@testing-library/jest-dom": "^4.2.4",
     "@testing-library/react": "^9.3.2",

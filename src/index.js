@@ -3,9 +3,11 @@ import ReactDOM from 'react-dom';
 import './index.scss';
 import * as serviceWorker from './serviceWorker';
 import App from './App';
+
+const ChatBoat = document.getElementById('ChatBoat')
 ReactDOM.render(
-  <App />,
-  document.getElementById('ChatBoat')
+  <App {...ChatBoat.dataset} />,
+  ChatBoat
 );
 // If you want your app to work offline and load faster, you can change	
 // unregister() to register() below. Note this comes with some pitfalls.	

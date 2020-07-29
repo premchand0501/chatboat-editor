@@ -36,15 +36,17 @@ const getChatFormatted = (chat, setContactUs) => {
     </>
   );
 }
-export const ChatBubble = ({ chat_id, chat_label, chat_desc, chat_options, type, reply_id, timestamp, replay, setContactUs }) => {
+export const ChatBubble = ({ icon, chat_id, chat_label, chat_desc, chat_options, type, reply_id, timestamp, replay, setContactUs }) => {
   // const [calendarStyle, setDateStyle] = useState(false);
   const chat = { chat_id, chat_label, chat_desc, chat_options, type, reply_id };
   return (
     <li className={`list-group-item ${type}`}>
-      <img className="chat-icon" src={require('../../logo.svg')} alt="chat icon" />
+      {
+        icon && type !== 'a' && <img className="chat-icon" src={icon} alt="chat icon" />
+      }
       <div className="msg" onClick={(event) => {
         event.stopPropagation();
-        type !== 'a' &&
+        (type !== 'a' && type !== 'i') &&
           replay(chat);
       }}>
         {

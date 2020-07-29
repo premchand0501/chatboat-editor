@@ -1,7 +1,7 @@
 import React from 'react';
 import { ChatBubble } from './ChatBubble';
 
-export const ChatList = ({ chatList, replay, setContactUs, style }) => {
+export const ChatList = ({ chatList, replay, setContactUs, style, icon }) => {
   return (
     <ul className="list-group chatList" style={style}>
       {
@@ -10,6 +10,7 @@ export const ChatList = ({ chatList, replay, setContactUs, style }) => {
             {...que}
             key={'chat_id_' + que.chat_id + '_' + (Math.random() * Date.now())}
             replay={replay}
+            icon={icon}
             setContactUs={setContactUs} />
         )) : null
       }

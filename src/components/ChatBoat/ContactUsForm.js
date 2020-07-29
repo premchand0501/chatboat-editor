@@ -1,7 +1,7 @@
 import React, { useRef } from 'react';
 import { FaTrashAlt, FaTimes, FaPlus, FaPaperPlane } from 'react-icons/fa';
 
-export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setContactUs, message, email, copyMe }) => {
+export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setContactUs, message, email, copyMe, attachment }) => {
   const attachmentEl = useRef();
   return contactUs && contactUs.chat_id ? (
     <form className="chatFooter" onSubmit={handleSubmit}>
@@ -21,23 +21,20 @@ export const ContactUsForm = ({ contactUs, handleSubmit, handleOnChange, setCont
                   <small>From: {contactUs.email}</small>
                 </p>
                 <div className="form-check ml-2">
-                  <input type="checkbox" className="form-check-input" id="copyMe" name="copyMe" value={copyMe} />
+                  <input type="checkbox" className="form-check-input" id="copyMe" name="copyMe" value={copyMe}
+                    onChange={handleOnChange} />
                   <label htmlFor="copyMe" className="form-check-label">Copy Me</label>
                 </div>
               </>
             )
           }
           {
-            contactUs.attachment && (
+            attachment && (
               <p className="m-0 email mb-2">
-                <button className="btn btn-link text-dark" type="button" onClick={() => {
-                  const _c = { ...contactUs };
-                  delete _c.attachment;
-                  setContactUs(_c)
-                }}>
+                <button className="btn btn-link text-dark" type="button" onClick={() => setContactUs(null)}>
                   <FaTrashAlt />
                 </button>
-                <small>Attachment: {contactUs.attachment && contactUs.attachment.name}</small>
+                <small>Attachment: {attachment && attachment.name}</small>
               </p>
             )
           }
