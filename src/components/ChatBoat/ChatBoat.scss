@@ -244,6 +244,12 @@
     }
   }
 }
+@media (max-width: 820px) {
+  .chatBody {
+    width: calc(100% - 2rem);
+    max-width: calc(400px - 2rem);
+  }
+}
 @keyframes fadeUp {
   from {
     opacity: 0;
