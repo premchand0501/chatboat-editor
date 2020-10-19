@@ -1,69 +1,9 @@
-import React, { Suspense } from 'react';
+import React from 'react';
 import Sidebar from './Sidebar';
 import Questions from './Questions';
 import { withShowToast } from '../ToastMsg';
 import './Editor.scss';
 
-const ChatBoat = React.lazy(() => import('../ChatBoat/'));
-const dummyQuestion = [
-  {
-    "chat_id": 0,
-    "chat_label": "Welcome to ChatBoat",
-    "chat_desc": "",
-    "chat_options": [],
-    "type": "i",
-    "reply_id": 1
-  },
-  {
-    "chat_id": 0,
-    "chat_label": "How are you doing?",
-    "chat_desc": "",
-    "chat_options": [],
-    "type": "q",
-    "reply_id": 1
-  },
-  {
-    "chat_id": 0,
-    "chat_label": "I am doing good",
-    "chat_desc": "",
-    "chat_options": [],
-    "type": "a",
-    "reply_id": 1
-  },
-  {
-    "chat_id": 0,
-    "chat_label": "This is a sample option list",
-    "chat_desc": "",
-    "chat_options": [
-      {
-        "chat_id": 0,
-        "chat_label": "Option 1",
-        "chat_desc": "",
-        "chat_options": [],
-        "type": "ol",
-        "reply_id": 1
-      },
-      {
-        "chat_id": 0,
-        "chat_label": "Options 2",
-        "chat_desc": "",
-        "chat_options": [],
-        "type": "ol",
-        "reply_id": 1
-      },
-    ],
-    "type": "ol",
-    "reply_id": 1
-  },
-  {
-    "chat_id": 0,
-    "chat_label": "This will be subject line for contact us",
-    "chat_desc": "This will be in chat content",
-    "chat_options": [],
-    "type": "c",
-    "reply_id": 1
-  }
-]
 class Editor extends React.Component {
   constructor(props) {
     super(props);
@@ -72,7 +12,7 @@ class Editor extends React.Component {
       editQuestion: null,
       jsonValue: '',
       searchText: '',
-      currentTab: 'style'
+      currentTab: 'form',//json, style
     };
   }
   componentDidMount() {
@@ -176,7 +116,8 @@ class Editor extends React.Component {
     const value = event.target.value;
     try {
       const json = JSON.parse(value);
-      if (json && json.length) {
+      console.log(json)
+      if (json && json.length > -1) {
         json.filter(j => {
           if (j.hasOwnProperty('chat_id') && j.hasOwnProperty('chat_label') && j.hasOwnProperty('chat_options') &&
             j.hasOwnProperty('type') && j.hasOwnProperty('reply_id') && j.hasOwnProperty('chat_desc')) {
@@ -193,6 +134,7 @@ class Editor extends React.Component {
           jsonValue: value,
           questions: json,
         })
+        this.props.setQuests(json)
       }
     }
     catch (e) {
@@ -200,7 +142,7 @@ class Editor extends React.Component {
       this.setState({
         jsonValue: value,
       })
-      value !== '' && this.showError('Invalid json format')
+      value !== '' && this.showError('Invalid json format', 100000)
     }
   }
   handleSearch(value) {
@@ -234,7 +176,7 @@ class Editor extends React.Component {
             saveQuestions={(q) => this.handleSaveQuestion(q)}
           />
           {
-            currentTab !== 'style' ? (
+            currentTab === 'form' && (
               <Questions
                 searchText={searchText}
                 handleSearch={(v) => this.handleSearch(v)}
@@ -244,18 +186,7 @@ class Editor extends React.Component {
                 setEditQuestion={(q) => this.setEditQuestion(q)}
                 deleteQuestion={(id) => this.deleteQuestion(id)}
               />
-            ) : (
-
-                <Suspense fallback={<div>Loading ChatBoat...</div>}>
-                  <ChatBoat
-                    currentTab={currentTab}
-                    title="TCS"
-                    msg="Style bot"
-                    icon={require('../../logo.svg')}
-                    questionJson={dummyQuestion} />
-                </Suspense>
-              )
-
+            )
           }
         </div>
 

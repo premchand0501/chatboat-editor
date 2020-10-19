@@ -26,25 +26,7 @@ class ChatBoat extends React.Component {
         const res = await (await (fetch(this.state.jsonPath))).json();
         console.log(res)
         if (res) {
-          if (res.length) {
-            const chat_0 = res.filter(ch => ch.chat_id === 0);
-            if (chat_0.length) {
-              this.setState({
-                questions: res,
-                chatList: [...this.state.chatList, ...chat_0]
-              });
-              // setTimeout(() => {
-              //   if (chat_0[0].reply_id) {
-              //     const reply = res.filter(ch => ch.chat_id === chat_0[0].reply_id);
-              //     if (reply.length) {
-              //       this.setState({
-              //         chatList: [...this.state.chatList, ...reply]
-              //       });
-              //     }
-              //   }
-              // }, 300)
-            }
-          }
+          this.initChat(res)
         }
       }
       catch (e) {
@@ -52,12 +34,35 @@ class ChatBoat extends React.Component {
       }
     }
   }
+  initChat(chats) {
+    if (chats.length) {
+      const chat_0 = chats.filter(ch => ch.chat_id === 0);
+      if (chat_0.length) {
+        this.setState({
+          questions: chats,
+          chatList: [...chat_0]
+        });
+        setTimeout(() => {
+          if (chat_0[0].reply_id) {
+            const reply = chats.filter(ch => ch.chat_id === chat_0[0].reply_id);
+            if (reply.length) {
+              this.setState({
+                chatList: [...this.state.chatList, ...reply]
+              });
+            }
+          }
+        }, 300)
+      }
+    }
+  }
   toggleChatBody(toggleChat) {
     this.setState({ toggleChat })
+    if (toggleChat) {
+      this.initChat(this.props.chatList)
+    }
   }
   replay(chat) {
     const { reply_id } = chat;
-    console.log(reply_id)
     if (!reply_id) {
       return;
     }
@@ -69,23 +74,12 @@ class ChatBoat extends React.Component {
       if (reply.length) {
         this.setState({
           chatList: [...this.state.chatList, ...reply]
+        }, () => {
+          const chatListEl = document.querySelector('.chatList > .list-group-item:last-child');
+          chatListEl && chatListEl.scrollIntoView({ behavior: 'smooth' })
         });
       }
     });
-
-  }
-  componentDidUpdate() {
-    const { chatList, questions } = this.state;
-    const chatListEl = document.querySelector('.chatList > .list-group-item:last-child');
-    chatListEl && chatListEl.scrollIntoView({ behavior: 'smooth' })
-    if (chatList.length === 1 && chatList[0].reply_id) {
-      const reply = questions.filter(ch => ch.chat_id === chatList[0].reply_id);
-      if (reply.length) {
-        this.setState({
-          chatList: [...chatList, ...reply],
-        });
-      }
-    }
   }
   setContactUs(chat) {
     this.setState({

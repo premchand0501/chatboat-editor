@@ -185,6 +185,70 @@ class Sidebar extends React.Component {
   changeTab(tab) {
     this.props.changeTab(tab);
   }
+  getCurrentTabView(tab, questions, currentQuestion, chatOptionsQuestion, ifEditing, errors, jsonValue, handleJSONchange) {
+    switch (tab) {
+      case 'json': return (
+        <div className="form-group">
+          <h3 htmlFor="jsonField">If you already have json paste here</h3>
+          <textarea
+            className="form-control"
+            rows="20"
+            id="jsonField"
+            value={jsonValue}
+            placeholder="Paste your json here..."
+            onChange={handleJSONchange}></textarea>
+        </div>
+      )
+      case 'style': return (
+        <div className="h4">Coming Soon.</div>
+      )
+      case 'form': return (
+        <>
+          {
+            chatOptionsQuestion.chat_id && ifEditing ? (
+              <ChatOptionQuestionEdit
+                questions={questions}
+                currentQuestion={currentQuestion}
+                chatOptionsQuestion={chatOptionsQuestion}
+                handleOnChange={(event, ifOption) =>
+                  this.handleOnChange(event, ifOption)
+                }
+                handleBack={() => this.handleBack()}
+                handleSubmit={(event, ifOption) =>
+                  this.handleSubmit(event, ifOption)
+                }
+              />
+            ) : (
+                <MainQuestionEdit
+                  clearForm={() => this.clearForm()}
+                  handleAddEditChatOption={(ques) => this.handleAddEditChatOption(ques)}
+                  deleteOption={(id) => this.deleteOption}
+                  questions={questions}
+                  currentQuestion={currentQuestion}
+                  handleOnChange={(event, ifOption) => this.handleOnChange(event, ifOption)}
+                  handleSubmit={(event, ifOption) => this.handleSubmit(event, ifOption)}
+                />
+              )
+          }
+          {Object.keys(errors).length ? (
+            <div className="my-3">
+              <h5>Errors:</h5>
+              {Object.keys(errors).map((key) => (
+                <div
+                  className="alert alert-danger fade-scale-up"
+                  role="alert"
+                  key={'err_' + key}
+                >
+                  {errors[key]}
+                </div>
+              ))}
+            </div>
+          ) : null}
+        </>
+      )
+    }
+    return null
+  }
   render() {
     const {
       questions,
@@ -193,7 +257,7 @@ class Sidebar extends React.Component {
       ifEditing,
       errors,
     } = this.state;
-    const { currentTab } = this.props
+    const { currentTab, jsonValue, handleJSONchange } = this.props
     return (
       <div className="sidebar col-12 col-md-3 col-sm-4">
         <div className="btn-group w-100 mb-3">
@@ -214,61 +278,7 @@ class Sidebar extends React.Component {
           </button>
         </div>
         {
-          currentTab === 'json' ? (
-            <div className="form-group">
-              <h3 htmlFor="jsonField">If you already have json paste here</h3>
-              <textarea
-                className="form-control"
-                rows="20"
-                id="jsonField"
-                value={this.props.jsonValue}
-                placeholder="Paste your json here..."
-                onChange={this.props.handleJSONchange}></textarea>
-            </div>
-          ) : (
-              <>
-                {
-                  chatOptionsQuestion.chat_id && ifEditing ? (
-                    <ChatOptionQuestionEdit
-                      questions={questions}
-                      currentQuestion={currentQuestion}
-                      chatOptionsQuestion={chatOptionsQuestion}
-                      handleOnChange={(event, ifOption) =>
-                        this.handleOnChange(event, ifOption)
-                      }
-                      handleBack={() => this.handleBack()}
-                      handleSubmit={(event, ifOption) =>
-                        this.handleSubmit(event, ifOption)
-                      }
-                    />
-                  ) : (
-                      <MainQuestionEdit
-                        clearForm={() => this.clearForm()}
-                        handleAddEditChatOption={(ques) => this.handleAddEditChatOption(ques)}
-                        deleteOption={(id) => this.deleteOption}
-                        questions={questions}
-                        currentQuestion={currentQuestion}
-                        handleOnChange={(event, ifOption) => this.handleOnChange(event, ifOption)}
-                        handleSubmit={(event, ifOption) => this.handleSubmit(event, ifOption)}
-                      />
-                    )
-                }
-                {Object.keys(errors).length ? (
-                  <div className="my-3">
-                    <h5>Errors:</h5>
-                    {Object.keys(errors).map((key) => (
-                      <div
-                        className="alert alert-danger fade-scale-up"
-                        role="alert"
-                        key={'err_' + key}
-                      >
-                        {errors[key]}
-                      </div>
-                    ))}
-                  </div>
-                ) : null}
-              </>
-            )
+          this.getCurrentTabView(currentTab, questions, currentQuestion, chatOptionsQuestion, ifEditing, errors, jsonValue, handleJSONchange)
         }
       </div>
     );

@@ -2,7 +2,7 @@ import React, { useState } from 'react';
 
 const Questions = ({ questions, setEditQuestion, downloadJSON, searchText, handleSearch, deleteQuestion }) => {
   const [deleteChatId, setDelete] = useState(-1);
-  const [scrollTop, setScrollTop] = useState(false);
+  const [scrollTop] = useState(false);
   let _questions = [];
   if (searchText) {
     const s = searchText.toLowerCase();
