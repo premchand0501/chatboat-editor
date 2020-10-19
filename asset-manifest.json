@@ -1,20 +1,20 @@
 {
   "files": {
-    "main.css": "/chatboat-editor/static/css/main.bb44a2f1.chunk.css",
-    "main.js": "/chatboat-editor/static/js/main.cb436aab.chunk.js",
-    "runtime-main.js": "/chatboat-editor/static/js/runtime-main.6549deca.js",
+    "main.css": "/chatboat-editor/static/css/main.06d66900.chunk.css",
+    "main.js": "/chatboat-editor/static/js/main.69547866.chunk.js",
+    "runtime-main.js": "/chatboat-editor/static/js/runtime-main.d6fee571.js",
     "static/js/2.225f43cc.chunk.js": "/chatboat-editor/static/js/2.225f43cc.chunk.js",
-    "static/css/3.eb91d388.chunk.css": "/chatboat-editor/static/css/3.eb91d388.chunk.css",
-    "static/js/3.10a252cc.chunk.js": "/chatboat-editor/static/js/3.10a252cc.chunk.js",
+    "static/css/3.ed4c5dec.chunk.css": "/chatboat-editor/static/css/3.ed4c5dec.chunk.css",
+    "static/js/3.9e4c730e.chunk.js": "/chatboat-editor/static/js/3.9e4c730e.chunk.js",
     "index.html": "/chatboat-editor/index.html",
-    "precache-manifest.ee0d343111cb0cdac62ef953ae8fcc8c.js": "/chatboat-editor/precache-manifest.ee0d343111cb0cdac62ef953ae8fcc8c.js",
+    "precache-manifest.5df51a475c8a97e5847492d24cc9c52c.js": "/chatboat-editor/precache-manifest.5df51a475c8a97e5847492d24cc9c52c.js",
     "service-worker.js": "/chatboat-editor/service-worker.js",
     "static/js/2.225f43cc.chunk.js.LICENSE.txt": "/chatboat-editor/static/js/2.225f43cc.chunk.js.LICENSE.txt"
   },
   "entrypoints": [
-    "static/js/runtime-main.6549deca.js",
+    "static/js/runtime-main.d6fee571.js",
     "static/js/2.225f43cc.chunk.js",
-    "static/css/main.bb44a2f1.chunk.css",
-    "static/js/main.cb436aab.chunk.js"
+    "static/css/main.06d66900.chunk.css",
+    "static/js/main.69547866.chunk.js"
   ]
 }
