@@ -81,7 +81,7 @@ export const ChatOptionQuestionEdit = ({
           id="replayId"
           name="reply_id"
           onChange={(event) => handleOnChange(event, true)}
-          value={chatOptionsQuestion.reply_id}
+          value={chatOptionsQuestion.reply_id + ''}
         >
           <option value={null} disabled>Select Chat Replay</option>
           <option value="">No Reply</option>

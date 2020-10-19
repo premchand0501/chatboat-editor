@@ -2,7 +2,7 @@ import React from 'react';
 // import moment from 'moment';
 
 const getChatFormatted = (chat, setContactUs) => {
-  const { chat_desc } = { ...chat };
+  const { chat_desc, type } = { ...chat };
   let desc = chat_desc;
   let anchorStr = [];
   let initialStr = '',
@@ -19,7 +19,7 @@ const getChatFormatted = (chat, setContactUs) => {
   return (
     <>
       <span>{initialStr}</span>
-      <a href={anchorStr[1]} target={anchorStr[2]}>{anchorStr[0]}</a>
+      <a href={anchorStr[1]} target={anchorStr[2]} style={{ wordBreak: 'break-all' }}>{anchorStr[0]}</a>
       <span>{endStr}</span>
       {
         anchorStr && anchorStr.length ? (
@@ -29,10 +29,12 @@ const getChatFormatted = (chat, setContactUs) => {
           </>
         ) : null
       }
-      <span>Click <span className="text-primary" onClick={(event) => {
-        event.stopPropagation();
-        setContactUs(chat);
-      }}>here</span> to contact us</span>
+      {
+        type === 'c' && <span>Click <span className="text-primary" onClick={(event) => {
+          event.stopPropagation();
+          setContactUs(chat);
+        }}>here</span> to contact us</span>
+      }
     </>
   );
 }

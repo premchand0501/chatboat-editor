@@ -140,6 +140,7 @@ class Sidebar extends React.Component {
     });
   }
   handleAddEditChatOption(currQuest) {
+    console.log(currQuest)
     if (currQuest) {
       const { currentQuestion } = this.state;
       const found = currentQuestion.chat_options.filter(
@@ -153,6 +154,7 @@ class Sidebar extends React.Component {
       } else {
         const id = currQuest.chat_id * 100 + currQuest.chat_options.length;
         const _chatOptionsQuestion = this.state.chatOptionsQuestion;
+        console.log(_chatOptionsQuestion)
         _chatOptionsQuestion.chat_id = id;
         this.setState({
           chatOptionsQuestion: _chatOptionsQuestion,
@@ -174,7 +176,7 @@ class Sidebar extends React.Component {
       ifEditing: false
     });
   }
-  deleteOption(chat_id) {
+  deleteOption = (chat_id) => {
     const _currentQuestion = { ...this.state.currentQuestion };
     const co = _currentQuestion.chat_options.filter(c => c.chat_id !== chat_id);
     _currentQuestion.chat_options = co;
@@ -205,7 +207,7 @@ class Sidebar extends React.Component {
       case 'form': return (
         <>
           {
-            chatOptionsQuestion.chat_id && ifEditing ? (
+            chatOptionsQuestion.chat_id > -1 && ifEditing ? (
               <ChatOptionQuestionEdit
                 questions={questions}
                 currentQuestion={currentQuestion}
@@ -222,7 +224,7 @@ class Sidebar extends React.Component {
                 <MainQuestionEdit
                   clearForm={() => this.clearForm()}
                   handleAddEditChatOption={(ques) => this.handleAddEditChatOption(ques)}
-                  deleteOption={(id) => this.deleteOption}
+                  deleteOption={this.deleteOption}
                   questions={questions}
                   currentQuestion={currentQuestion}
                   handleOnChange={(event, ifOption) => this.handleOnChange(event, ifOption)}
@@ -246,8 +248,8 @@ class Sidebar extends React.Component {
           ) : null}
         </>
       )
+      default: return null
     }
-    return null
   }
   render() {
     const {

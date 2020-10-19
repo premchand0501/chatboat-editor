@@ -34,8 +34,10 @@ export const MainQuestionEdit = ({
           onChange={(event) => handleOnChange(event, false)}
         />
       </div>
-      <div className="form-group">
-        <label htmlFor="chatLabel">Chat Label</label>
+      <div className="form-group mt-3">
+        <label htmlFor="chatLabel" style={{
+          fontWeight: currentQuestion.type === 'c' ? 900 : 400
+        }}>{currentQuestion.type === 'c' ? 'Subject Line' : 'Chat Label'}</label>
         <textarea
           type="text"
           className="form-control"
@@ -43,6 +45,7 @@ export const MainQuestionEdit = ({
           name="chat_label"
           value={currentQuestion.chat_label}
           rows="3"
+          placeholder={currentQuestion.type === 'c' ? 'If your question type is contact us then enter your subject line here to show in contact us form' : ''}
           onChange={(event) => handleOnChange(event, false)}
         />
       </div>
@@ -91,12 +94,12 @@ export const MainQuestionEdit = ({
             key={'ol_ques_' + ind}
             onClick={() => handleAddEditChatOption(q)}
           >
-            {q.chat_label && <p className="m-0">{q.chat_label}</p>}
-            {q.chat_desc && (
-              <p className="m-0">
-                <small>{q.chat_desc}</small>
-              </p>
-            )}
+            <span>{q.chat_label && <p className="m-0">{q.chat_label}</p>}
+              {q.chat_desc && (
+                <p className="m-0">
+                  <small>{q.chat_desc}</small>
+                </p>
+              )}</span>
             <span
               className={`btn ${deleteChatId === q.chat_id ? 'btn-danger' : 'btn-outline-danger'} btn-sm`}
               onClick={(event) => handleDelete(event, q.chat_id)}>
@@ -130,7 +133,7 @@ export const MainQuestionEdit = ({
               <option
                 key={'opt_' + i}
                 value={q.chat_id}
-                disabled={q.reply_id === currentQuestion.chat_id}
+                disabled={q.chat_id === currentQuestion.chat_id || q.reply_id === currentQuestion.chat_id}
               >
                 {'#' + q.chat_id} : {q.chat_label || q.chat_desc}
               </option>

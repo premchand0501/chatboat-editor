@@ -23,5 +23,8 @@
     display: flex;
     align-items: center;
     justify-content: space-between;
+    max-height: 60px;
+    overflow: hidden;
+    text-overflow: ellipsis;
   }
 }
