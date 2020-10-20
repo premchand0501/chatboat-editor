@@ -282,6 +282,15 @@ class Sidebar extends React.Component {
         {
           this.getCurrentTabView(currentTab, questions, currentQuestion, chatOptionsQuestion, ifEditing, errors, jsonValue, handleJSONchange)
         }
+        <div className="col col-12">
+          <p>Instructions</p>
+          <ol>
+            <li>Add all questions, then one by one link to reply</li>
+            <li>Use chat type info message to show in between info messages, don’t forget to link to next questions after display of info</li>
+            <li>If you question has sub-questions or multiple options, select chat type Options List</li>
+            <li>Option list questions chat type will be contact us, so that user can contact for the particular questions query</li>
+          </ol>
+        </div>
       </div>
     );
   }
