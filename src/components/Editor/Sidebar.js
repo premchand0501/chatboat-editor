@@ -282,8 +282,8 @@ class Sidebar extends React.Component {
         {
           this.getCurrentTabView(currentTab, questions, currentQuestion, chatOptionsQuestion, ifEditing, errors, jsonValue, handleJSONchange)
         }
-        <div className="col col-12">
-          <p>Instructions</p>
+        <div className="col col-12 mt-3">
+          <h3>Instructions</h3>
           <ol>
             <li>Add all questions, then one by one link them with reply dropdown</li>
             <li>Use chat type 'info message' to show in between info messages, don’t forget to link to next questions after info message has been displayed</li>
