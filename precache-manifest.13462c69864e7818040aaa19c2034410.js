@@ -1,10 +1,10 @@
 self.__precacheManifest = (self.__precacheManifest || []).concat([
   {
-    "revision": "3d2b688717f376e253a6e7971eab1444",
+    "revision": "0953886c59e978976a2229c8abce6665",
     "url": "/chatboat-editor/index.html"
   },
   {
-    "revision": "95f5c8c22967a4c0c00f",
+    "revision": "f7cc6aa69d38c748d6e3",
     "url": "/chatboat-editor/static/css/3.e444e2f8.chunk.css"
   },
   {
@@ -20,15 +20,15 @@ self.__precacheManifest = (self.__precacheManifest || []).concat([
     "url": "/chatboat-editor/static/js/2.225f43cc.chunk.js.LICENSE.txt"
   },
   {
-    "revision": "95f5c8c22967a4c0c00f",
-    "url": "/chatboat-editor/static/js/3.ff4fc720.chunk.js"
+    "revision": "f7cc6aa69d38c748d6e3",
+    "url": "/chatboat-editor/static/js/3.e8cedd83.chunk.js"
   },
   {
     "revision": "95865e90349fe5035868",
     "url": "/chatboat-editor/static/js/main.69547866.chunk.js"
   },
   {
-    "revision": "356dcdb32b81d6e848e4",
-    "url": "/chatboat-editor/static/js/runtime-main.41220b4f.js"
+    "revision": "d932c0ed5041bab0e475",
+    "url": "/chatboat-editor/static/js/runtime-main.1bab239e.js"
   }
 ]);
